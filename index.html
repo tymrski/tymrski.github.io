@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Kejsy do telefonów</title>
   <style>
     body {
       font-family: Arial;
-      background-color: #f4f4f4;
+      background-color: #e3f2fd;
+      /* Light blue background */
       text-align: center;
+      color: #333;
     }
 
     h1 {
@@ -14,7 +17,8 @@
     }
 
     .top-bar {
-      background: black;
+      background: #2196f3;
+      /* Blue top bar */
       color: white;
       padding: 10px;
       font-weight: bold;
@@ -37,79 +41,84 @@
       margin: 20px;
       padding: 15px;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     .price {
       font-weight: bold;
-      color: green;
+      color: #1976d2;
+      /* Darker blue for price */
       margin: 10px 0;
     }
 
     button {
       padding: 8px 15px;
       border: none;
-      background: black;
+      background: #1e88e5;
+      /* Primary blue button */
       color: white;
       cursor: pointer;
       border-radius: 5px;
+      transition: background 0.3s;
     }
 
     button:hover {
-      background: gray;
+      background: #1565c0;
+      /* Darker blue on hover */
     }
   </style>
 </head>
 
 <body>
 
-<div class="top-bar">
-  🛒 Koszyk: <span id="cart">0</span> szt.
-</div>
-
-<h1>📱 Kejsy do telefonów</h1>
-
-<label>Wybierz model telefonu:</label>
-<br>
-<select>
-  <option>iPhone</option>
-  <option>Samsung</option>
-  <option>Xiaomi</option>
-</select>
-
-<div class="container">
-
-  <div class="card">
-    <h2>Przezroczysty</h2>
-    <p>Minimalistyczny design.</p>
-    <div class="price">29 zł</div>
-    <button onclick="addToCart()">Kup teraz</button>
+  <div class="top-bar">
+    🛒 Koszyk: <span id="cart">0</span> szt.
   </div>
 
-  <div class="card">
-    <h2>Gamingowy</h2>
-    <p>Mocna ochrona + styl.</p>
-    <div class="price">49 zł</div>
-    <button onclick="addToCart()">Kup teraz</button>
+  <h1>📱 Kejsy do telefonów</h1>
+
+  <label>Wybierz model telefonu:</label>
+  <br>
+  <select>
+    <option>iPhone</option>
+    <option>Samsung</option>
+    <option>Xiaomi</option>
+  </select>
+
+  <div class="container">
+
+    <div class="card">
+      <h2>Przezroczysty</h2>
+      <p>Minimalistyczny design.</p>
+      <div class="price">29 zł</div>
+      <button onclick="addToCart()">Kup teraz</button>
+    </div>
+
+    <div class="card">
+      <h2>Gamingowy</h2>
+      <p>Mocna ochrona + styl.</p>
+      <div class="price">49 zł</div>
+      <button onclick="addToCart()">Kup teraz</button>
+    </div>
+
+    <div class="card">
+      <h2>Luxury</h2>
+      <p>Elegancki i stylowy.</p>
+      <div class="price">79 zł</div>
+      <button onclick="addToCart()">Kup teraz</button>
+    </div>
+
   </div>
 
-  <div class="card">
-    <h2>Luxury</h2>
-    <p>Elegancki i stylowy.</p>
-    <div class="price">79 zł</div>
-    <button onclick="addToCart()">Kup teraz</button>
-  </div>
+  <script>
+    let count = 0;
 
-</div>
-
-<script>
-  let count = 0;
-
-  function addToCart() {
-    count++;
-    document.getElementById("cart").innerText = count;
-  }
-</script>
+    function addToCart() {
+      count++;
+      document.getElementById("cart").innerText = count;
+    }
+  </script>
 
 </body>
+
 </html>
