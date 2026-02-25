@@ -1,70 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 
 <head>
-  <title>Kejsy do telefonów</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Case Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial;
-      background-color: #e3f2fd;
-      /* Light blue background */
-      text-align: center;
-      color: #333;
+    :root {
+      --primary: #1e88e5;
+      --primary-dark: #1565c0;
+      --bg: #f0f7ff;
+      --white: #ffffff;
+      --text: #2c3e50;
+      --text-light: #546e7a;
+      --shadow: 0 10px 30px rgba(30, 136, 229, 0.1);
+      --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
     }
 
-    h1 {
-      margin-top: 20px;
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      color: var(--text);
+      line-height: 1.6;
     }
 
     .top-bar {
-      background: #2196f3;
-      /* Blue top bar */
+      background: var(--primary);
       color: white;
-      padding: 10px;
-      font-weight: bold;
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .cart-info {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .lang-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     select {
-      padding: 5px;
-      margin: 15px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-family: inherit;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    select option {
+      background: var(--primary);
+      color: white;
+    }
+
+    select:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .hero {
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
+    }
+
+    h1 {
+      font-weight: 700;
+      margin: 0 0 15px 0;
+      font-size: 2.5rem;
+      color: var(--primary-dark);
+    }
+
+    .selector-container {
+      margin-bottom: 40px;
+    }
+
+    .model-selector {
+      background: var(--white);
+      color: var(--text);
+      border: 1px solid #ddd;
+      margin-top: 10px;
+      width: 200px;
     }
 
     .container {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
+      gap: 30px;
+      padding: 40px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .card {
-      background: white;
-      width: 250px;
-      margin: 20px;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      background: var(--white);
+      width: 300px;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+      margin: 15px 0 10px 0;
+      font-weight: 600;
+    }
+
+    .card p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      height: 45px;
     }
 
     .price {
-      font-weight: bold;
-      color: #1976d2;
-      /* Darker blue for price */
-      margin: 10px 0;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
     }
 
-    button {
-      padding: 8px 15px;
+    .buy-btn {
+      padding: 12px 25px;
       border: none;
-      background: #1e88e5;
-      /* Primary blue button */
+      background: var(--primary);
       color: white;
+      font-weight: 600;
       cursor: pointer;
-      border-radius: 5px;
-      transition: background 0.3s;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      width: 100%;
+      font-family: inherit;
+      font-size: 1rem;
     }
 
-    button:hover {
-      background: #1565c0;
-      /* Darker blue on hover */
+    .buy-btn:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 5px 15px rgba(30, 136, 229, 0.3);
+    }
+
+    .case-icon {
+      font-size: 3rem;
+      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -72,50 +172,168 @@
 <body>
 
   <div class="top-bar">
-    🛒 Koszyk: <span id="cart">0</span> szt.
+    <div class="cart-info" id="cart-text">🛒 Koszyk: 0 szt.</div>
+    <div class="lang-container">
+      <select id="lang-select" onchange="changeLanguage(this.value)">
+        <option value="pl">Polski</option>
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+        <option value="zh">中文</option>
+      </select>
+    </div>
   </div>
 
-  <h1>📱 Kejsy do telefonów</h1>
-
-  <label>Wybierz model telefonu:</label>
-  <br>
-  <select>
-    <option>iPhone</option>
-    <option>Samsung</option>
-    <option>Xiaomi</option>
-  </select>
+  <div class="hero">
+    <h1 id="main-title">📱 Kejsy do telefonów</h1>
+    <div class="selector-container">
+      <label id="model-label" for="model-select">Wybierz model telefonu:</label>
+      <br>
+      <select id="model-select" class="model-selector">
+        <option>iPhone</option>
+        <option>Samsung</option>
+        <option>Xiaomi</option>
+      </select>
+    </div>
+  </div>
 
   <div class="container">
 
     <div class="card">
-      <h2>Przezroczysty</h2>
-      <p>Minimalistyczny design.</p>
-      <div class="price">29 zł</div>
-      <button onclick="addToCart()">Kup teraz</button>
+      <div class="case-icon">✨</div>
+      <h2 id="card1-title">Przezroczysty</h2>
+      <p id="card1-desc">Minimalistyczny design.</p>
+      <div class="price" id="card1-price">29 zł</div>
+      <button class="buy-btn" id="btn1" onclick="addToCart()">Kup teraz</button>
     </div>
 
     <div class="card">
-      <h2>Gamingowy</h2>
-      <p>Mocna ochrona + styl.</p>
-      <div class="price">49 zł</div>
-      <button onclick="addToCart()">Kup teraz</button>
+      <div class="case-icon">🎮</div>
+      <h2 id="card2-title">Gamingowy</h2>
+      <p id="card2-desc">Mocna ochrona + styl.</p>
+      <div class="price" id="card2-price">49 zł</div>
+      <button class="buy-btn" id="btn2" onclick="addToCart()">Kup teraz</button>
     </div>
 
     <div class="card">
-      <h2>Luxury</h2>
-      <p>Elegancki i stylowy.</p>
-      <div class="price">79 zł</div>
-      <button onclick="addToCart()">Kup teraz</button>
+      <div class="case-icon">💎</div>
+      <h2 id="card3-title">Luxury</h2>
+      <p id="card3-desc">Elegancki i stylowy.</p>
+      <div class="price" id="card3-price">79 zł</div>
+      <button class="buy-btn" id="btn3" onclick="addToCart()">Kup teraz</button>
     </div>
 
   </div>
 
   <script>
+    const translations = {
+      pl: {
+        cart: "🛒 Koszyk: {count} szt.",
+        title: "📱 Kejsy do telefonów",
+        selectModel: "Wybierz model telefonu:",
+        transparent: "Przezroczysty",
+        minimalist: "Minimalistyczny design.",
+        buyNow: "Kup teraz",
+        gaming: "Gamingowy",
+        strongProtection: "Mocna ochrona + styl.",
+        luxury: "Luxury",
+        elegant: "Elegancki i stylowy.",
+        priceSuffix: " zł"
+      },
+      en: {
+        cart: "🛒 Cart: {count} pcs.",
+        title: "📱 Phone Cases",
+        selectModel: "Select phone model:",
+        transparent: "Transparent",
+        minimalist: "Minimalist design.",
+        buyNow: "Buy now",
+        gaming: "Gaming",
+        strongProtection: "Strong protection + style.",
+        luxury: "Luxury",
+        elegant: "Elegant and stylish.",
+        priceSuffix: " PLN"
+      },
+      es: {
+        cart: "🛒 Carrito: {count} ud.",
+        title: "📱 Fundas para móviles",
+        selectModel: "Selecciona el modelo de móvil:",
+        transparent: "Transparente",
+        minimalist: "Diseño minimalista.",
+        buyNow: "Comprar ahora",
+        gaming: "Gaming",
+        strongProtection: "Gran protección + estilo.",
+        luxury: "Luxury",
+        elegant: "Elegante y con estilo.",
+        priceSuffix: " PLN"
+      },
+      de: {
+        cart: "🛒 Warenkorb: {count} Stk.",
+        title: "📱 Handyhüllen",
+        selectModel: "Wähle ein Handy-Modell:",
+        transparent: "Transparent",
+        minimalist: "Minimalistisches Design.",
+        buyNow: "Jetzt kaufen",
+        gaming: "Gaming",
+        strongProtection: "Starker Schutz + Stil.",
+        luxury: "Luxus",
+        elegant: "Elegant und stilvoll.",
+        priceSuffix: " PLN"
+      },
+      zh: {
+        cart: "🛒 购物车: {count} 件",
+        title: "📱 手机壳",
+        selectModel: "选择手机型号:",
+        transparent: "透明",
+        minimalist: "极简设计。",
+        buyNow: "立即购买",
+        gaming: "电竞",
+        strongProtection: "强力保护 + 风格。",
+        luxury: "奢华",
+        elegant: "优雅时尚。",
+        priceSuffix: " PLN"
+      }
+    };
+
     let count = 0;
+    let currentLang = 'pl';
+
+    function updateCart() {
+      const cartText = document.getElementById("cart-text");
+      cartText.innerText = translations[currentLang].cart.replace("{count}", count);
+    }
 
     function addToCart() {
       count++;
-      document.getElementById("cart").innerText = count;
+      updateCart();
+    }
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+
+      document.getElementById("main-title").innerText = t.title;
+      document.getElementById("model-label").innerText = t.selectModel;
+
+      // Card 1
+      document.getElementById("card1-title").innerText = t.transparent;
+      document.getElementById("card1-desc").innerText = t.minimalist;
+      document.getElementById("card1-price").innerText = "29" + t.priceSuffix;
+      document.getElementById("btn1").innerText = t.buyNow;
+
+      // Card 2
+      document.getElementById("card2-title").innerText = t.gaming;
+      document.getElementById("card2-desc").innerText = t.strongProtection;
+      document.getElementById("card2-price").innerText = "49" + t.priceSuffix;
+      document.getElementById("btn2").innerText = t.buyNow;
+
+      // Card 3
+      document.getElementById("card3-title").innerText = t.luxury;
+      document.getElementById("card3-desc").innerText = t.elegant;
+      document.getElementById("card3-price").innerText = "79" + t.priceSuffix;
+      document.getElementById("btn3").innerText = t.buyNow;
+
+      updateCart();
+      document.documentElement.lang = lang;
     }
   </script>
 
