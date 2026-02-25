@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Case Shop</title>
+  <title>Premium Case Shop | Design Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -18,6 +18,7 @@
       --text-light: #546e7a;
       --shadow: 0 10px 30px rgba(30, 136, 229, 0.1);
       --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+      --accent: #ff4081;
     }
 
     body {
@@ -76,6 +77,7 @@
     .hero {
       padding: 60px 20px;
       background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
+      text-align: center;
     }
 
     h1 {
@@ -85,16 +87,114 @@
       color: var(--primary-dark);
     }
 
-    .selector-container {
-      margin-bottom: 40px;
+    .studio-section {
+      padding: 60px 5%;
+      background: white;
+      text-align: center;
     }
 
-    .model-selector {
-      background: var(--white);
-      color: var(--text);
-      border: 1px solid #ddd;
-      margin-top: 10px;
-      width: 200px;
+    .studio-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .drawing-board {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    canvas {
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .tools {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    .preview-box {
+      width: 280px;
+      height: 500px;
+      background: #333;
+      border-radius: 40px;
+      position: relative;
+      padding: 10px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border: 8px solid #444;
+    }
+
+    .preview-case {
+      width: 100%;
+      height: 100%;
+      background: white;
+      border-radius: 30px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .camera-cutout {
+      width: 60px;
+      height: 60px;
+      background: #222;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      border-radius: 12px;
+      z-index: 5;
+    }
+
+    #design-overlay {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
     .container {
@@ -124,25 +224,6 @@
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     }
 
-    .card h2 {
-      margin: 15px 0 10px 0;
-      font-weight: 600;
-    }
-
-    .card p {
-      color: var(--text-light);
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-      height: 45px;
-    }
-
-    .price {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: var(--primary);
-      margin-bottom: 20px;
-    }
-
     .buy-btn {
       padding: 12px 25px;
       border: none;
@@ -154,17 +235,23 @@
       transition: all 0.3s ease;
       width: 100%;
       font-family: inherit;
-      font-size: 1rem;
-    }
-
-    .buy-btn:hover {
-      background: var(--primary-dark);
-      box-shadow: 0 5px 15px rgba(30, 136, 229, 0.3);
     }
 
     .case-icon {
       font-size: 3rem;
       margin-bottom: 10px;
+    }
+
+    .selector-container {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .model-selector {
+      width: 200px;
+      background: white;
+      color: var(--text);
+      border: 1px solid #ddd;
     }
   </style>
 </head>
@@ -197,8 +284,33 @@
     </div>
   </div>
 
-  <div class="container">
+  <!-- Studio Design Section -->
+  <div class="studio-section">
+    <h2 id="studio-title">🎨 Studio Projektowe</h2>
+    <p id="studio-desc">Stwórz własny wzór i nałóż go na kejsa!</p>
 
+    <div class="studio-container">
+      <div class="drawing-board">
+        <canvas id="paintCanvas" width="300" height="500"></canvas>
+        <div class="tools">
+          <input type="color" id="colorPicker" value="#1e88e5">
+          <input type="range" id="brushSize" min="1" max="20" value="5">
+          <button class="btn btn-outline" id="clearBtn" onclick="clearCanvas()">Usuń</button>
+          <button class="btn btn-primary" id="applyBtn" onclick="applyToCase()">Przyklej</button>
+        </div>
+      </div>
+
+      <div class="preview-box">
+        <div class="preview-case">
+          <div class="camera-cutout"></div>
+          <img id="design-overlay" src="" alt="">
+        </div>
+        <p style="color: white; margin-top: 15px; font-weight: bold;" id="preview-label">Podgląd</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
     <div class="card">
       <div class="case-icon">✨</div>
       <h2 id="card1-title">Przezroczysty</h2>
@@ -222,7 +334,6 @@
       <div class="price" id="card3-price">79 zł</div>
       <button class="buy-btn" id="btn3" onclick="addToCart()">Kup teraz</button>
     </div>
-
   </div>
 
   <script>
@@ -238,7 +349,12 @@
         strongProtection: "Mocna ochrona + styl.",
         luxury: "Luxury",
         elegant: "Elegancki i stylowy.",
-        priceSuffix: " zł"
+        priceSuffix: " zł",
+        studioTitle: "🎨 Studio Projektowe",
+        studioDesc: "Stwórz własny wzór i nałóż go na kejsa!",
+        clear: "Usuń",
+        apply: "Przyklej",
+        preview: "Podgląd"
       },
       en: {
         cart: "🛒 Cart: {count} pcs.",
@@ -251,7 +367,12 @@
         strongProtection: "Strong protection + style.",
         luxury: "Luxury",
         elegant: "Elegant and stylish.",
-        priceSuffix: " PLN"
+        priceSuffix: " PLN",
+        studioTitle: "🎨 Design Studio",
+        studioDesc: "Create your own pattern and stick it to the case!",
+        clear: "Clear",
+        apply: "Stick it",
+        preview: "Preview"
       },
       es: {
         cart: "🛒 Carrito: {count} ud.",
@@ -264,7 +385,12 @@
         strongProtection: "Gran protección + estilo.",
         luxury: "Luxury",
         elegant: "Elegante y con estilo.",
-        priceSuffix: " PLN"
+        priceSuffix: " PLN",
+        studioTitle: "🎨 Estudio de Diseño",
+        studioDesc: "¡Crea tu propio patrón y pégalo a la funda!",
+        clear: "Borrar",
+        apply: "Pegar",
+        preview: "Vista previa"
       },
       de: {
         cart: "🛒 Warenkorb: {count} Stk.",
@@ -277,7 +403,12 @@
         strongProtection: "Starker Schutz + Stil.",
         luxury: "Luxus",
         elegant: "Elegant und stilvoll.",
-        priceSuffix: " PLN"
+        priceSuffix: " PLN",
+        studioTitle: "🎨 Designstudio",
+        studioDesc: "Erstelle dein eigenes Muster und klebe es auf die Hülle!",
+        clear: "Löschen",
+        apply: "Aufkleben",
+        preview: "Vorschau"
       },
       zh: {
         cart: "🛒 购物车: {count} 件",
@@ -290,7 +421,12 @@
         strongProtection: "强力保护 + 风格。",
         luxury: "奢华",
         elegant: "优雅时尚。",
-        priceSuffix: " PLN"
+        priceSuffix: " PLN",
+        studioTitle: "🎨 设计工作室",
+        studioDesc: "创作你自己的图案并贴在手机壳上！",
+        clear: "清除",
+        apply: "贴上",
+        preview: "预览"
       }
     };
 
@@ -313,20 +449,22 @@
 
       document.getElementById("main-title").innerText = t.title;
       document.getElementById("model-label").innerText = t.selectModel;
+      document.getElementById("studio-title").innerText = t.studioTitle;
+      document.getElementById("studio-desc").innerText = t.studioDesc;
+      document.getElementById("clearBtn").innerText = t.clear;
+      document.getElementById("applyBtn").innerText = t.apply;
+      document.getElementById("preview-label").innerText = t.preview;
 
-      // Card 1
       document.getElementById("card1-title").innerText = t.transparent;
       document.getElementById("card1-desc").innerText = t.minimalist;
       document.getElementById("card1-price").innerText = "29" + t.priceSuffix;
       document.getElementById("btn1").innerText = t.buyNow;
 
-      // Card 2
       document.getElementById("card2-title").innerText = t.gaming;
       document.getElementById("card2-desc").innerText = t.strongProtection;
       document.getElementById("card2-price").innerText = "49" + t.priceSuffix;
       document.getElementById("btn2").innerText = t.buyNow;
 
-      // Card 3
       document.getElementById("card3-title").innerText = t.luxury;
       document.getElementById("card3-desc").innerText = t.elegant;
       document.getElementById("card3-price").innerText = "79" + t.priceSuffix;
@@ -334,6 +472,56 @@
 
       updateCart();
       document.documentElement.lang = lang;
+    }
+
+    // Canvas Logic
+    const canvas = document.getElementById('paintCanvas');
+    const ctx = canvas.getContext('2d');
+    let painting = false;
+
+    function startPosition(e) {
+      painting = true;
+      draw(e);
+    }
+
+    function finishedPosition() {
+      painting = false;
+      ctx.beginPath();
+    }
+
+    function draw(e) {
+      if (!painting) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+      const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+
+      ctx.lineWidth = document.getElementById('brushSize').value;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = document.getElementById('colorPicker').value;
+
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+    }
+
+    canvas.addEventListener('mousedown', startPosition);
+    canvas.addEventListener('mouseup', finishedPosition);
+    canvas.addEventListener('mousemove', draw);
+
+    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startPosition(e); });
+    canvas.addEventListener('touchend', finishedPosition);
+    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); });
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      document.getElementById('design-overlay').src = "";
+    }
+
+    function applyToCase() {
+      const dataURL = canvas.toDataURL();
+      document.getElementById('design-overlay').src = dataURL;
     }
   </script>
 
