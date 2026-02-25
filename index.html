@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Case Shop | Design Studio</title>
+  <title>Premium Case Shop | Design Studio Pro</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -70,12 +70,8 @@
       color: white;
     }
 
-    select:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
     .hero {
-      padding: 60px 20px;
+      padding: 40px 20px;
       background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
       text-align: center;
     }
@@ -88,7 +84,7 @@
     }
 
     .studio-section {
-      padding: 60px 5%;
+      padding: 40px 5%;
       background: white;
       text-align: center;
     }
@@ -97,9 +93,9 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      gap: 40px;
+      gap: 30px;
       flex-wrap: wrap;
-      margin-top: 30px;
+      margin-top: 20px;
     }
 
     .drawing-board {
@@ -107,6 +103,7 @@
       padding: 20px;
       border-radius: 20px;
       box-shadow: var(--shadow);
+      max-width: 340px;
     }
 
     canvas {
@@ -117,43 +114,90 @@
       touch-action: none;
     }
 
-    .tools {
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
       margin-top: 15px;
+    }
+
+    .tool-row {
       display: flex;
-      justify-content: center;
-      gap: 15px;
       align-items: center;
+      gap: 10px;
+      justify-content: center;
+      grid-column: span 2;
+      margin-bottom: 5px;
+    }
+
+    .emoji-panel {
+      grid-column: span 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      background: #eee;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .emoji-item {
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .emoji-item:hover {
+      transform: scale(1.3);
+    }
+
+    .file-input-wrapper {
+      grid-column: span 2;
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
     }
 
     .btn {
-      padding: 10px 20px;
+      padding: 10px 15px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
       font-weight: 600;
       font-family: inherit;
       transition: all 0.2s;
+      font-size: 0.9rem;
     }
 
     .btn-primary {
       background: var(--primary);
       color: white;
+      width: 100%;
     }
 
     .btn-accent {
       background: var(--accent);
       color: white;
+      width: 100%;
     }
 
     .btn-outline {
       background: transparent;
       border: 2px solid var(--primary);
       color: var(--primary);
+      width: 100%;
+    }
+
+    .btn-file {
+      background: #607d8b;
+      color: white;
+      width: 100%;
     }
 
     .btn:hover {
       opacity: 0.9;
-      transform: translateY(-2px);
+      transform: translateY(-1px);
     }
 
     .preview-box {
@@ -213,45 +257,14 @@
       padding: 30px;
       border-radius: 20px;
       box-shadow: var(--card-shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    }
-
-    .buy-btn {
-      padding: 12px 25px;
-      border: none;
-      background: var(--primary);
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      width: 100%;
-      font-family: inherit;
-    }
-
     .case-icon {
       font-size: 3rem;
       margin-bottom: 10px;
-    }
-
-    .selector-container {
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .model-selector {
-      width: 200px;
-      background: white;
-      color: var(--text);
-      border: 1px solid #ddd;
     }
   </style>
 </head>
@@ -273,28 +286,43 @@
 
   <div class="hero">
     <h1 id="main-title">📱 Kejsy do telefonów</h1>
-    <div class="selector-container">
-      <label id="model-label" for="model-select">Wybierz model telefonu:</label>
-      <br>
-      <select id="model-select" class="model-selector">
-        <option>iPhone</option>
-        <option>Samsung</option>
-        <option>Xiaomi</option>
-      </select>
-    </div>
+    <label id="model-label">Wybierz model:</label>
+    <select id="model-select" style="background: white; color: black; border: 1px solid #ccc; width: 150px;">
+      <option>iPhone</option>
+      <option>Samsung</option>
+      <option>Xiaomi</option>
+    </select>
   </div>
 
-  <!-- Studio Design Section -->
   <div class="studio-section">
-    <h2 id="studio-title">🎨 Studio Projektowe</h2>
-    <p id="studio-desc">Stwórz własny wzór i nałóż go na kejsa!</p>
+    <h2 id="studio-title">🎨 Studio Projektowe Pro</h2>
+    <p id="studio-desc">Rysuj, dodawaj emoji lub wgraj własną grafikę!</p>
 
     <div class="studio-container">
       <div class="drawing-board">
         <canvas id="paintCanvas" width="300" height="500"></canvas>
-        <div class="tools">
-          <input type="color" id="colorPicker" value="#1e88e5">
-          <input type="range" id="brushSize" min="1" max="20" value="5">
+        <div class="tools-grid">
+          <div class="tool-row">
+            <input type="color" id="colorPicker" value="#1e88e5" title="Kolor">
+            <input type="range" id="brushSize" min="1" max="50" value="5" title="Rozmiar">
+          </div>
+
+          <div class="emoji-panel">
+            <span class="emoji-item" onclick="addEmoji('🔥')">🔥</span>
+            <span class="emoji-item" onclick="addEmoji('✨')">✨</span>
+            <span class="emoji-item" onclick="addEmoji('❤️')">❤️</span>
+            <span class="emoji-item" onclick="addEmoji('😎')">😎</span>
+            <span class="emoji-item" onclick="addEmoji('🌈')">🌈</span>
+            <span class="emoji-item" onclick="addEmoji('👾')">👾</span>
+            <span class="emoji-item" onclick="addEmoji('🍕')">🍕</span>
+            <span class="emoji-item" onclick="addEmoji('⭐')">⭐</span>
+          </div>
+
+          <div class="file-input-wrapper">
+            <button class="btn btn-file" id="btn-import">📥 Importuj obraz</button>
+            <input type="file" id="imageLoader" accept="image/*" style="display:none">
+          </div>
+
           <button class="btn btn-outline" id="clearBtn" onclick="clearCanvas()">Usuń</button>
           <button class="btn btn-primary" id="applyBtn" onclick="applyToCase()">Przyklej</button>
         </div>
@@ -315,138 +343,40 @@
       <div class="case-icon">✨</div>
       <h2 id="card1-title">Przezroczysty</h2>
       <p id="card1-desc">Minimalistyczny design.</p>
-      <div class="price" id="card1-price">29 zł</div>
-      <button class="buy-btn" id="btn1" onclick="addToCart()">Kup teraz</button>
+      <div class="price" id="card1-price">29 zł</div><button class="btn btn-primary" onclick="addToCart()" id="btn1">Kup
+        teraz</button>
     </div>
-
     <div class="card">
       <div class="case-icon">🎮</div>
       <h2 id="card2-title">Gamingowy</h2>
-      <p id="card2-desc">Mocna ochrona + styl.</p>
-      <div class="price" id="card2-price">49 zł</div>
-      <button class="buy-btn" id="btn2" onclick="addToCart()">Kup teraz</button>
+      <p id="card2-desc">Mocna ochrona.</p>
+      <div class="price" id="card2-price">49 zł</div><button class="btn btn-primary" onclick="addToCart()" id="btn2">Kup
+        teraz</button>
     </div>
-
     <div class="card">
       <div class="case-icon">💎</div>
       <h2 id="card3-title">Luxury</h2>
-      <p id="card3-desc">Elegancki i stylowy.</p>
-      <div class="price" id="card3-price">79 zł</div>
-      <button class="buy-btn" id="btn3" onclick="addToCart()">Kup teraz</button>
+      <p id="card3-desc">Elegancki styl.</p>
+      <div class="price" id="card3-price">79 zł</div><button class="btn btn-primary" onclick="addToCart()" id="btn3">Kup
+        teraz</button>
     </div>
   </div>
 
   <script>
     const translations = {
-      pl: {
-        cart: "🛒 Koszyk: {count} szt.",
-        title: "📱 Kejsy do telefonów",
-        selectModel: "Wybierz model telefonu:",
-        transparent: "Przezroczysty",
-        minimalist: "Minimalistyczny design.",
-        buyNow: "Kup teraz",
-        gaming: "Gamingowy",
-        strongProtection: "Mocna ochrona + styl.",
-        luxury: "Luxury",
-        elegant: "Elegancki i stylowy.",
-        priceSuffix: " zł",
-        studioTitle: "🎨 Studio Projektowe",
-        studioDesc: "Stwórz własny wzór i nałóż go na kejsa!",
-        clear: "Usuń",
-        apply: "Przyklej",
-        preview: "Podgląd"
-      },
-      en: {
-        cart: "🛒 Cart: {count} pcs.",
-        title: "📱 Phone Cases",
-        selectModel: "Select phone model:",
-        transparent: "Transparent",
-        minimalist: "Minimalist design.",
-        buyNow: "Buy now",
-        gaming: "Gaming",
-        strongProtection: "Strong protection + style.",
-        luxury: "Luxury",
-        elegant: "Elegant and stylish.",
-        priceSuffix: " PLN",
-        studioTitle: "🎨 Design Studio",
-        studioDesc: "Create your own pattern and stick it to the case!",
-        clear: "Clear",
-        apply: "Stick it",
-        preview: "Preview"
-      },
-      es: {
-        cart: "🛒 Carrito: {count} ud.",
-        title: "📱 Fundas para móviles",
-        selectModel: "Selecciona el modelo de móvil:",
-        transparent: "Transparente",
-        minimalist: "Diseño minimalista.",
-        buyNow: "Comprar ahora",
-        gaming: "Gaming",
-        strongProtection: "Gran protección + estilo.",
-        luxury: "Luxury",
-        elegant: "Elegante y con estilo.",
-        priceSuffix: " PLN",
-        studioTitle: "🎨 Estudio de Diseño",
-        studioDesc: "¡Crea tu propio patrón y pégalo a la funda!",
-        clear: "Borrar",
-        apply: "Pegar",
-        preview: "Vista previa"
-      },
-      de: {
-        cart: "🛒 Warenkorb: {count} Stk.",
-        title: "📱 Handyhüllen",
-        selectModel: "Wähle ein Handy-Modell:",
-        transparent: "Transparent",
-        minimalist: "Minimalistisches Design.",
-        buyNow: "Jetzt kaufen",
-        gaming: "Gaming",
-        strongProtection: "Starker Schutz + Stil.",
-        luxury: "Luxus",
-        elegant: "Elegant und stilvoll.",
-        priceSuffix: " PLN",
-        studioTitle: "🎨 Designstudio",
-        studioDesc: "Erstelle dein eigenes Muster und klebe es auf die Hülle!",
-        clear: "Löschen",
-        apply: "Aufkleben",
-        preview: "Vorschau"
-      },
-      zh: {
-        cart: "🛒 购物车: {count} 件",
-        title: "📱 手机壳",
-        selectModel: "选择手机型号:",
-        transparent: "透明",
-        minimalist: "极简设计。",
-        buyNow: "立即购买",
-        gaming: "电竞",
-        strongProtection: "强力保护 + 风格。",
-        luxury: "奢华",
-        elegant: "优雅时尚。",
-        priceSuffix: " PLN",
-        studioTitle: "🎨 设计工作室",
-        studioDesc: "创作你自己的图案并贴在手机壳上！",
-        clear: "清除",
-        apply: "贴上",
-        preview: "预览"
-      }
+      pl: { cart: "🛒 Koszyk: {count} szt.", title: "📱 Kejsy do telefonów", selectModel: "Wybierz model:", studioTitle: "🎨 Studio Projektowe Pro", studioDesc: "Rysuj, dodawaj emoji lub wgraj własną grafikę!", clear: "Usuń", apply: "Przyklej", preview: "Podgląd", import: "📥 Importuj obraz", buyNow: "Kup teraz", priceSuffix: " zł" },
+      en: { cart: "🛒 Cart: {count} pcs.", title: "📱 Phone Cases", selectModel: "Select model:", studioTitle: "🎨 Design Studio Pro", studioDesc: "Draw, add emojis or upload your own graphic!", clear: "Clear", apply: "Stick it", preview: "Preview", import: "📥 Import Image", buyNow: "Buy now", priceSuffix: " PLN" },
+      es: { cart: "🛒 Carrito: {count} ud.", title: "📱 Fundas para móviles", selectModel: "Elegir modelo:", studioTitle: "🎨 Estudio Pro", studioDesc: "¡Dibuja, añade emojis o sube tu propia imagen!", clear: "Borrar", apply: "Pegar", preview: "Vista previa", import: "📥 Importar imagen", buyNow: "Comprar", priceSuffix: " PLN" },
+      de: { cart: "🛒 Warenkorb: {count} Stk.", title: "📱 Handyhüllen", selectModel: "Modell wählen:", studioTitle: "🎨 Design Studio Pro", studioDesc: "Zeichne, füge Emojis hinzu oder lade Grafiken hoch!", clear: "Löschen", apply: "Aufkleben", preview: "Vorschau", import: "📥 Bild importieren", buyNow: "Kaufen", priceSuffix: " PLN" },
+      zh: { cart: "🛒 购物车: {count} 件", title: "📱 手机壳", selectModel: "选择型号:", studioTitle: "🎨 专业设计工作室", studioDesc: "设计、添加表情或上传图片！", clear: "清除", apply: "贴上", preview: "预览", import: "📥 导入图片", buyNow: "立即购买", priceSuffix: " PLN" }
     };
 
-    let count = 0;
-    let currentLang = 'pl';
-
-    function updateCart() {
-      const cartText = document.getElementById("cart-text");
-      cartText.innerText = translations[currentLang].cart.replace("{count}", count);
-    }
-
-    function addToCart() {
-      count++;
-      updateCart();
-    }
+    let count = 0, currentLang = 'pl';
+    function updateCart() { document.getElementById("cart-text").innerText = translations[currentLang].cart.replace("{count}", count); }
+    function addToCart() { count++; updateCart(); }
 
     function changeLanguage(lang) {
-      currentLang = lang;
-      const t = translations[lang];
-
+      currentLang = lang; const t = translations[lang];
       document.getElementById("main-title").innerText = t.title;
       document.getElementById("model-label").innerText = t.selectModel;
       document.getElementById("studio-title").innerText = t.studioTitle;
@@ -454,77 +384,53 @@
       document.getElementById("clearBtn").innerText = t.clear;
       document.getElementById("applyBtn").innerText = t.apply;
       document.getElementById("preview-label").innerText = t.preview;
-
-      document.getElementById("card1-title").innerText = t.transparent;
-      document.getElementById("card1-desc").innerText = t.minimalist;
-      document.getElementById("card1-price").innerText = "29" + t.priceSuffix;
+      document.getElementById("btn-import").innerText = t.import;
       document.getElementById("btn1").innerText = t.buyNow;
-
-      document.getElementById("card2-title").innerText = t.gaming;
-      document.getElementById("card2-desc").innerText = t.strongProtection;
-      document.getElementById("card2-price").innerText = "49" + t.priceSuffix;
       document.getElementById("btn2").innerText = t.buyNow;
-
-      document.getElementById("card3-title").innerText = t.luxury;
-      document.getElementById("card3-desc").innerText = t.elegant;
-      document.getElementById("card3-price").innerText = "79" + t.priceSuffix;
       document.getElementById("btn3").innerText = t.buyNow;
-
       updateCart();
-      document.documentElement.lang = lang;
     }
 
-    // Canvas Logic
-    const canvas = document.getElementById('paintCanvas');
-    const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('paintCanvas'), ctx = canvas.getContext('2d');
     let painting = false;
 
-    function startPosition(e) {
-      painting = true;
-      draw(e);
-    }
-
-    function finishedPosition() {
-      painting = false;
-      ctx.beginPath();
-    }
-
+    function startPosition(e) { painting = true; draw(e); }
+    function finishedPosition() { painting = false; ctx.beginPath(); }
     function draw(e) {
       if (!painting) return;
-
       const rect = canvas.getBoundingClientRect();
       const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
       const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-
       ctx.lineWidth = document.getElementById('brushSize').value;
       ctx.lineCap = 'round';
       ctx.strokeStyle = document.getElementById('colorPicker').value;
-
-      ctx.lineTo(x, y);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(x, y);
+      ctx.lineTo(x, y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y);
     }
 
-    canvas.addEventListener('mousedown', startPosition);
-    canvas.addEventListener('mouseup', finishedPosition);
-    canvas.addEventListener('mousemove', draw);
-
+    canvas.addEventListener('mousedown', startPosition); canvas.addEventListener('mouseup', finishedPosition); canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startPosition(e); });
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); });
 
-    function clearCanvas() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      document.getElementById('design-overlay').src = "";
+    function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); document.getElementById('design-overlay').src = ""; }
+    function applyToCase() { document.getElementById('design-overlay').src = canvas.toDataURL(); }
+
+    function addEmoji(emoji) {
+      ctx.font = "50px Arial";
+      ctx.fillText(emoji, 125, 250);
     }
 
-    function applyToCase() {
-      const dataURL = canvas.toDataURL();
-      document.getElementById('design-overlay').src = dataURL;
-    }
+    document.getElementById('btn-import').onclick = () => document.getElementById('imageLoader').click();
+    document.getElementById('imageLoader').onchange = (e) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0, 300, 500);
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    };
   </script>
-
 </body>
 
 </html>
