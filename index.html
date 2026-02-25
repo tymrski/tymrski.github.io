@@ -4,21 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Case Shop | Design Studio Ultra</title>
+  <title>Premium Case Shop | Extreme Design Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #1e88e5;
-      --primary-dark: #1565c0;
-      --bg: #f0f7ff;
+      --primary-dark: #0d47a1;
+      --bg: #0f172a;
       --white: #ffffff;
-      --text: #2c3e50;
-      --text-light: #546e7a;
-      --shadow: 0 10px 30px rgba(30, 136, 229, 0.1);
-      --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-      --accent: #ff4081;
+      --surface: #1e293b;
+      --text: #f8fafc;
+      --text-light: #94a3b8;
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      --accent: #f43f5e;
+      --accent-glow: 0 0 15px rgba(244, 63, 94, 0.4);
+      --gradient: linear-gradient(135deg, #1e88e5 0%, #7c3aed 100%);
     }
 
     body {
@@ -27,184 +30,276 @@
       margin: 0;
       color: var(--text);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     .top-bar {
-      background: var(--primary);
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(15px);
       color: white;
       padding: 15px 5%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
       position: sticky;
       top: 0;
-      z-index: 1000;
+      z-index: 2000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .cart-info {
-      font-weight: 600;
-      font-size: 1.1rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-shadow: 0 0 10px rgba(30, 136, 229, 0.5);
     }
 
-    .lang-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    select {
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.2);
+    .lang-container select {
+      padding: 10px 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: var(--surface);
       color: white;
       font-family: inherit;
       cursor: pointer;
       outline: none;
+      transition: 0.3s;
+    }
+
+    .lang-container select:hover {
+      border-color: var(--primary);
     }
 
     .hero {
-      padding: 30px 20px;
-      background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
+      padding: 100px 20px 60px;
+      background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
       text-align: center;
+      position: relative;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
     }
 
     h1 {
-      font-weight: 700;
+      font-weight: 900;
       margin: 0 0 10px 0;
-      font-size: 2.2rem;
-      color: var(--primary-dark);
+      font-size: 4rem;
+      letter-spacing: -2px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-light);
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 10px auto;
     }
 
     .studio-section {
-      padding: 40px 5%;
-      background: white;
-      text-align: center;
+      padding: 80px 5%;
+      position: relative;
     }
 
     .studio-container {
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      gap: 30px;
+      gap: 50px;
       flex-wrap: wrap;
-      margin-top: 20px;
+      margin-top: 40px;
     }
 
     .drawing-board {
-      background: #f8f9fa;
-      padding: 20px;
-      border-radius: 20px;
+      background: var(--surface);
+      padding: 30px;
+      border-radius: 30px;
       box-shadow: var(--shadow);
-      max-width: 340px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      max-width: 400px;
     }
 
     canvas {
       background: white;
-      border: 2px solid #ddd;
-      border-radius: 10px;
+      border-radius: 20px;
       cursor: crosshair;
       touch-action: none;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
     }
 
-    .tools-grid {
+    .tools-pane {
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .tool-group {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 15px;
+      border-radius: 20px;
+    }
+
+    .tool-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .emoji-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 10px;
-      margin-top: 15px;
+      max-height: 150px;
+      overflow-y: auto;
+      padding-right: 5px;
     }
 
-    .tool-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-      grid-column: span 2;
-      margin-bottom: 5px;
+    .emoji-grid::-webkit-scrollbar {
+      width: 4px;
     }
 
-    .emoji-panel {
-      grid-column: span 2;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      background: #eee;
-      padding: 10px;
+    .emoji-grid::-webkit-scrollbar-thumb {
+      background: var(--primary);
       border-radius: 10px;
     }
 
-    .emoji-item {
-      font-size: 1.5rem;
+    .emoji-btn {
+      font-size: 1.8rem;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      border-radius: 10px;
     }
 
-    .emoji-item:hover {
+    .emoji-btn:hover {
       transform: scale(1.3);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 15px;
+      align-items: center;
     }
 
     .btn {
-      padding: 10px 15px;
+      padding: 15px 25px;
       border: none;
-      border-radius: 10px;
+      border-radius: 16px;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 700;
       font-family: inherit;
-      transition: all 0.2s;
-      font-size: 0.9rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1rem;
     }
 
     .btn-primary {
-      background: var(--primary);
+      background: var(--gradient);
       color: white;
-      width: 100%;
+      box-shadow: 0 10px 20px rgba(30, 136, 229, 0.3);
     }
 
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-      width: 100%;
-    }
-
-    .btn-file {
-      background: #607d8b;
+    .btn-secondary {
+      background: var(--surface);
       color: white;
-      width: 100%;
-      grid-column: span 2;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .preview-box {
-      width: 280px;
-      height: 500px;
-      background: #333;
-      border-radius: 40px;
+    .btn-glow {
+      background: var(--accent);
+      color: white;
+      box-shadow: var(--accent-glow);
+    }
+
+    .btn:hover {
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .preview-column {
+      position: sticky;
+      top: 120px;
+    }
+
+    .phone-mockup {
+      width: 320px;
+      height: 600px;
+      background: #050505;
+      border-radius: 50px;
       position: relative;
-      padding: 10px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-      border: 8px solid #444;
+      padding: 15px;
+      box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8);
+      border: 4px solid #1a1a1a;
     }
 
-    .preview-case {
+    .phone-case {
       width: 100%;
       height: 100%;
-      background: white;
-      border-radius: 30px;
+      background: #fff;
+      border-radius: 40px;
       overflow: hidden;
       position: relative;
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.1);
     }
 
-    .camera-cutout {
-      width: 60px;
-      height: 60px;
-      background: #222;
+    .bezel-glow {
       position: absolute;
-      top: 20px;
-      left: 20px;
-      border-radius: 12px;
-      z-index: 5;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 54px;
+      background: linear-gradient(var(--bg), var(--bg)) padding-box, var(--gradient) border-box;
+      border: 2px solid transparent;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .camera-island {
+      width: 80px;
+      height: 80px;
+      background: #000;
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      border-radius: 20px;
+      z-index: 10;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 8px;
+      gap: 5px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .lens {
+      width: 25px;
+      height: 25px;
+      background: #080808;
+      border-radius: 50%;
+      border: 1px solid #222;
     }
 
     #design-overlay {
@@ -215,50 +310,76 @@
       position: absolute;
       top: 0;
       left: 0;
+      transition: opacity 0.5s ease;
     }
 
     .container {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 20px;
-      padding: 40px 5%;
-      max-width: 1200px;
+      gap: 30px;
+      padding: 100px 5%;
+      max-width: 1400px;
       margin: 0 auto;
     }
 
     .card {
-      background: var(--white);
-      width: 280px;
-      padding: 25px;
-      border-radius: 20px;
+      background: var(--surface);
+      width: 320px;
+      padding: 40px;
+      border-radius: 30px;
       box-shadow: var(--card-shadow);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: 0.4s;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-15px);
+      border-color: var(--primary);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
 
     .case-icon {
-      font-size: 3rem;
-      margin-bottom: 10px;
+      font-size: 4rem;
+      margin-bottom: 20px;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
     }
 
-    .instruction-tip {
-      background: #fff3cd;
-      color: #856404;
-      padding: 10px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      margin-bottom: 15px;
-      display: inline-block;
+    .price {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin: 20px 0;
+    }
+
+    .instruction-overlay {
+      background: rgba(30, 136, 229, 0.1);
+      border-radius: 20px;
+      padding: 15px;
+      margin-bottom: 25px;
+      border: 1px dashed var(--primary);
+    }
+
+    #loading-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: var(--gradient);
+      width: 0;
+      z-index: 3000;
+      transition: width 0.3s;
     }
   </style>
 </head>
 
 <body>
+  <div id="loading-bar"></div>
 
   <div class="top-bar">
-    <div class="cart-info" id="cart-text">🛒 Koszyk: 0 szt.</div>
+    <div class="cart-info" id="cart-text">🛒 KOSZYK: 0 SZT.</div>
     <div class="lang-container">
       <select id="lang-select" onchange="changeLanguage(this.value)">
         <option value="pl">Polski</option>
@@ -271,148 +392,169 @@
   </div>
 
   <div class="hero">
-    <h1 id="main-title">📱 Kejsy do telefonów</h1>
-    <label id="model-label">Wybierz model:</label>
-    <select id="model-select" style="background: white; color: black; border: 1px solid #ccc; width: 150px;">
-      <option>iPhone</option>
-      <option>Samsung</option>
-      <option>Xiaomi</option>
-    </select>
+    <h1 id="main-title">ELITE CASE STUDIO</h1>
+    <p id="hero-subtitle">Najbardziej zaawansowany kreator personalizacji w sieci.</p>
+    <div style="margin-top: 30px;">
+      <select id="model-select" class="btn btn-secondary" style="display:inline-block; width: auto;">
+        <option>iPhone 15 Pro Max</option>
+        <option>Samsung Galaxy S24 Ultra</option>
+        <option>Google Pixel 8 Pro</option>
+        <option>Xiaomi 14 Ultra</option>
+      </select>
+    </div>
   </div>
 
   <div class="studio-section">
-    <h2 id="studio-title">🎨 Design Studio Ultra</h2>
-    <p id="studio-desc">Rysuj, dodawaj emoji i przesuwaj elementy za pomocą Drag & Drop!</p>
-
-    <div class="instruction-tip" id="drag-tip">💡 Wskazówka: Możesz przesuwać emoji i obrazy po ich dodaniu!</div>
-
     <div class="studio-container">
       <div class="drawing-board">
-        <canvas id="paintCanvas" width="300" height="500"></canvas>
-        <div class="tools-grid">
-          <div class="tool-row">
-            <input type="color" id="colorPicker" value="#1e88e5" title="Kolor">
-            <input type="range" id="brushSize" min="1" max="50" value="5" title="Rozmiar">
+        <div class="instruction-overlay" id="drag-tip">
+          💡 <b>PRO TIP:</b> Przeciągnij emoji myszką po ich dodaniu. Podwójne kliknięcie usuwa element!
+        </div>
+
+        <canvas id="paintCanvas" width="340" height="550"></canvas>
+
+        <div class="tools-pane">
+          <div class="tool-group">
+            <span class="tool-label">Pędzel i Kolory</span>
+            <div class="controls-row">
+              <input type="color" id="colorPicker" value="#1e88e5"
+                style="width: 50px; height: 50px; border: none; background: none; cursor: pointer;">
+              <input type="range" id="brushSize" min="1" max="80" value="8" style="flex-grow: 1;">
+              <span id="brush-val" style="width: 30px; font-weight: 700;">8</span>
+            </div>
           </div>
 
-          <div class="emoji-panel">
-            <span class="emoji-item" onclick="addElement('emoji', '🔥')">🔥</span>
-            <span class="emoji-item" onclick="addElement('emoji', '✨')">✨</span>
-            <span class="emoji-item" onclick="addElement('emoji', '❤️')">❤️</span>
-            <span class="emoji-item" onclick="addElement('emoji', '😎')">😎</span>
-            <span class="emoji-item" onclick="addElement('emoji', '🌈')">🌈</span>
-            <span class="emoji-item" onclick="addElement('emoji', '👾')">👾</span>
-            <span class="emoji-item" onclick="addElement('emoji', '🍕')">🍕</span>
-            <span class="emoji-item" onclick="addElement('emoji', '⭐')">⭐</span>
+          <div class="tool-group">
+            <span class="tool-label">Mega Emoji Panel</span>
+            <div class="emoji-grid" id="emoji-grid">
+              <!-- Dynamically populated -->
+            </div>
           </div>
 
-          <button class="btn btn-file" id="btn-import">📥 Importuj obraz / Drag & Drop</button>
-          <input type="file" id="imageLoader" accept="image/*" style="display:none">
+          <div class="controls-row" style="flex-direction: column;">
+            <button class="btn btn-secondary btn-file" onclick="document.getElementById('imageLoader').click()">
+              🖼️ PRO IMPORT GRAFIKI
+            </button>
+            <input type="file" id="imageLoader" accept="image/*" style="display:none">
 
-          <button class="btn btn-outline" id="clearBtn" onclick="clearCanvas()">Usuń wszystko</button>
-          <button class="btn btn-primary" id="applyBtn" onclick="applyToCase()">Przyklej na kejsa</button>
+            <div class="controls-row" style="width: 100%;">
+              <button class="btn btn-secondary" style="flex: 1;" onclick="clearCanvas()">🗑️ CZYŚĆ</button>
+              <button class="btn btn-primary" style="flex: 2;" onclick="applyToCase()">✨ GENERUJ PROJEKT</button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="preview-box">
-        <div class="preview-case">
-          <div class="camera-cutout"></div>
-          <img id="design-overlay" src="" alt="">
+      <div class="preview-column">
+        <div class="phone-mockup">
+          <div class="bezel-glow"></div>
+          <div class="phone-case">
+            <div class="camera-island">
+              <div class="lens"></div>
+              <div class="lens"></div>
+              <div class="lens"></div>
+              <div class="lens"></div>
+            </div>
+            <img id="design-overlay" src="" alt="">
+          </div>
         </div>
-        <p style="color: white; margin-top: 15px; font-weight: bold;" id="preview-label">Podgląd</p>
+        <p style="text-align: center; margin-top: 30px; font-weight: 900; letter-spacing: 2px;" id="preview-label">LIVE
+          PREVIEW</p>
       </div>
     </div>
   </div>
 
   <div class="container">
     <div class="card">
-      <div class="case-icon">✨</div>
-      <h2 id="card1-title">Przezroczysty</h2>
-      <p id="card1-desc">Minimalistyczny design.</p>
-      <div class="price" id="card1-price">29 zł</div><button class="btn btn-primary" onclick="addToCart()" id="btn1">Kup
-        teraz</button>
+      <span class="case-icon">💎</span>
+      <h2 id="card1-title">Ultra Sapphire</h2>
+      <p id="card1-desc">Wzmocnione szkło i diamentowy blask.</p>
+      <div class="price">129 PLN</div>
+      <button class="btn btn-primary" onclick="addToCart()">DO KOSZYKA</button>
     </div>
     <div class="card">
-      <div class="case-icon">🎮</div>
-      <h2 id="card2-title">Gamingowy</h2>
-      <p id="card2-desc">Mocna ochrona.</p>
-      <div class="price" id="card2-price">49 zł</div><button class="btn btn-primary" onclick="addToCart()" id="btn2">Kup
-        teraz</button>
+      <span class="case-icon">⚡</span>
+      <h2 id="card2-title">Carbon Pro</h2>
+      <p id="card2-desc">Prawdziwe włókno węglowe. Niezniszczalne.</p>
+      <div class="price">189 PLN</div>
+      <button class="btn btn-primary" onclick="addToCart()">DO KOSZYKA</button>
     </div>
     <div class="card">
-      <div class="case-icon">💎</div>
-      <h2 id="card3-title">Luxury</h2>
-      <p id="card3-desc">Elegancki styl.</p>
-      <div class="price" id="card3-price">79 zł</div><button class="btn btn-primary" onclick="addToCart()" id="btn3">Kup
-        teraz</button>
+      <span class="case-icon">🌈</span>
+      <h2 id="card3-title">Holographic</h2>
+      <p id="card3-desc">Zmienia kolory pod kątem światła.</p>
+      <div class="price">99 PLN</div>
+      <button class="btn btn-primary" onclick="addToCart()">DO KOSZYKA</button>
     </div>
   </div>
 
   <script>
+    const emojis = ["🔥", "✨", "❤️", "😎", "🌈", "👾", "🍕", "⭐", "🚀", "💎", "👻", "🦄", "⚡", "🍀", "👑", "🍕", "🐱", "🐶", "🐵", "🦁", "🐯", "🐼", "🐸", "🐷", "🎸", "🎧", "🎬", "🎨", "🎮", "👾", "👽", "🤖", "🥑", "🍩", "🍔", "🍦"];
+
     const translations = {
-      pl: { cart: "🛒 Koszyk: {count} szt.", title: "📱 Kejsy do telefonów", selectModel: "Wybierz model:", studioTitle: "🎨 Design Studio Ultra", studioDesc: "Rysuj, dodawaj emoji i przesuwaj elementy!", clear: "Usuń wszystko", apply: "Przyklej na kejsa", preview: "Podgląd", import: "📥 Importuj / Drag", buyNow: "Kup teraz", priceSuffix: " zł", tip: "💡 Wskazówka: Możesz przesuwać emoji i obrazy po ich dodaniu!" },
-      en: { cart: "🛒 Cart: {count} pcs.", title: "📱 Phone Cases", selectModel: "Select model:", studioTitle: "🎨 Design Studio Ultra", studioDesc: "Draw, add emojis and move elements around!", clear: "Clear all", apply: "Stick to case", preview: "Preview", import: "📥 Import / Drag", buyNow: "Buy now", priceSuffix: " PLN", tip: "💡 Tip: You can drag emojis and images after adding them!" },
-      es: { cart: "🛒 Carrito: {count} ud.", title: "📱 Fundas para móviles", selectModel: "Elegir modelo:", studioTitle: "🎨 Estudio Ultra", studioDesc: "¡Dibuja, añade emojis y arrastra elementos!", clear: "Borrar todo", apply: "Pegar al kejs", preview: "Vista previa", import: "📥 Importar / Arrastrar", buyNow: "Comprar", priceSuffix: " PLN", tip: "💡 Consejo: ¡Puedes arrastrar emojis e imágenes!" },
-      de: { cart: "🛒 Warenkorb: {count} Stk.", title: "📱 Handyhüllen", selectModel: "Modell wählen:", studioTitle: "🎨 Studio Ultra", studioDesc: "Zeichne, füge Emojis hinzu und verschiebe alles!", clear: "Alles löschen", apply: "Aufkleben", preview: "Vorschau", import: "📥 Import / Drag", buyNow: "Kaufen", priceSuffix: " PLN", tip: "💡 Tipp: Du kannst Emojis und Bilder verschieben!" },
-      zh: { cart: "🛒 购物车: {count} 件", title: "📱 手机壳", selectModel: "选择型号:", studioTitle: "🎨 终极设计工作室", studioDesc: "绘图、添加表情并拖放它们！", clear: "清除所有", apply: "拼贴", preview: "预览", import: "📥 导入 / 拖拽", buyNow: "立即购买", priceSuffix: " PLN", tip: "💡 提示：添加后可以拖动表情和图片！" }
+      pl: { cart: "🛒 KOSZYK: {count} SZT.", title: "ELITE CASE STUDIO", subtitle: "Najbardziej zaawansowany kreator personalizacji w sieci.", clear: "🗑️ CZYŚĆ", apply: "✨ GENERUJ PROJEKT", import: "🖼️ PRO IMPORT GRAFIKI", preview: "LIVE PREVIEW", tip: "💡 PRO TIP: Przeciągnij emoji myszką. Podwójne kliknięcie usuwa element!" },
+      en: { cart: "🛒 CART: {count} PCS.", title: "ELITE CASE STUDIO", subtitle: "The most advanced customization engine on the web.", clear: "🗑️ CLEAR", apply: "✨ GENERATE DESIGN", import: "🖼️ PRO IMAGE IMPORT", preview: "LIVE PREVIEW", tip: "💡 PRO TIP: Drag emojis with your mouse. Double click to remove!" },
+      es: { cart: "🛒 CARRITO: {count} UD.", title: "ESTUDIO ELITE", subtitle: "El motor de personalización más avanzado de la web.", clear: "🗑️ BORRAR", apply: "✨ GENERAR DISEÑO", import: "🖼️ IMPORTAR IMAGEN", preview: "VISTA PREVIA", tip: "💡 TIP: ¡Arrastra los emojis! ¡Doble clic para borrar!" },
+      de: { cart: "🛒 WARENKORB: {count} STK.", title: "ELITE STUDIO", subtitle: "Die fortschrittlichste Engine im Web.", clear: "🗑️ LEEREN", apply: "✨ DESIGN GENERIEREN", import: "🖼️ BILD IMPORTIEREN", preview: "VORSCHAU", tip: "💡 PRO TIP: Emojis ziehen zum Verschieben. Doppelklick zum Löschen!" },
+      zh: { cart: "🛒 购物车: {count} 件", title: "精英工作室", subtitle: "网络上最先进的高度定。制化平台。", clear: "🗑️ 清除", apply: "✨ 生成设计", import: "🖼️ 导入图片", preview: "实时预览", tip: "💡 提示：拖动表情符号，双击可删除！" }
     };
 
     let count = 0, currentLang = 'pl';
+    const canvas = document.getElementById('paintCanvas'), ctx = canvas.getContext('2d');
+    let elements = [], isDrawing = false, isDragging = false, dragIndex = -1, offsetX, offsetY;
+    const drawingLayer = document.createElement('canvas');
+    drawingLayer.width = 340; drawingLayer.height = 550;
+    const dctx = drawingLayer.getContext('2d');
+
+    // Init Emoji Grid
+    const emojiGrid = document.getElementById('emoji-grid');
+    emojis.forEach(e => {
+      const span = document.createElement('span');
+      span.className = 'emoji-btn';
+      span.innerText = e;
+      span.onclick = () => addElement('emoji', e);
+      emojiGrid.appendChild(span);
+    });
+
     function updateCart() { document.getElementById("cart-text").innerText = translations[currentLang].cart.replace("{count}", count); }
-    function addToCart() { count++; updateCart(); }
+    function addToCart() {
+      count++;
+      updateCart();
+      document.getElementById('loading-bar').style.width = '100%';
+      setTimeout(() => document.getElementById('loading-bar').style.width = '0', 500);
+    }
 
     function changeLanguage(lang) {
       currentLang = lang; const t = translations[lang];
       document.getElementById("main-title").innerText = t.title;
-      document.getElementById("model-label").innerText = t.selectModel;
-      document.getElementById("studio-title").innerText = t.studioTitle;
-      document.getElementById("studio-desc").innerText = t.studioDesc;
-      document.getElementById("clearBtn").innerText = t.clear;
-      document.getElementById("applyBtn").innerText = t.apply;
+      document.getElementById("hero-subtitle").innerText = t.subtitle;
       document.getElementById("preview-label").innerText = t.preview;
-      document.getElementById("btn-import").innerText = t.import;
-      document.getElementById("drag-tip").innerText = t.tip;
-      document.getElementById("btn1").innerText = t.buyNow;
-      document.getElementById("btn2").innerText = t.buyNow;
-      document.getElementById("btn3").innerText = t.buyNow;
+      document.getElementById("drag-tip").innerHTML = t.tip;
       updateCart();
     }
-
-    const canvas = document.getElementById('paintCanvas'), ctx = canvas.getContext('2d');
-    let elements = []; // {type, content, x, y, size, width, height}
-    let drawingLayer = document.createElement('canvas');
-    drawingLayer.width = 300; drawingLayer.height = 500;
-    let dctx = drawingLayer.getContext('2d');
-
-    let isDrawing = false, isDragging = false;
-    let dragIndex = -1, offsetX, offsetY;
 
     function render() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(drawingLayer, 0, 0);
-
       elements.forEach((el, index) => {
-        if (el.type === 'emoji') {
-          ctx.font = `${el.size}px Arial`;
-          ctx.fillText(el.content, el.x, el.y);
-          if (dragIndex === index) { // Highlight selected
-            ctx.strokeStyle = '#1e88e5'; ctx.lineWidth = 2;
-            ctx.strokeRect(el.x, el.y - el.size, el.size, el.size);
-          }
-        } else if (el.type === 'image') {
-          ctx.drawImage(el.content, el.x, el.y, el.width, el.height);
-          if (dragIndex === index) {
-            ctx.strokeStyle = '#1e88e5'; ctx.lineWidth = 2;
-            ctx.strokeRect(el.x, el.y, el.width, el.height);
-          }
+        ctx.save();
+        if (dragIndex === index) {
+          ctx.shadowBlur = 15; ctx.shadowColor = '#1e88e5';
         }
+        if (el.type === 'emoji') {
+          ctx.font = `${el.size}px Outfit`;
+          ctx.fillText(el.content, el.x, el.y);
+        } else {
+          ctx.drawImage(el.content, el.x, el.y, el.width, el.height);
+        }
+        ctx.restore();
       });
     }
 
     function addElement(type, content) {
       if (type === 'emoji') {
-        elements.push({ type, content, x: 125, y: 250, size: 50 });
-      } else if (type === 'image') {
+        elements.push({ type, content, x: 140, y: 270, size: 60 });
+      } else {
         const img = new Image();
         img.onload = () => {
           elements.push({ type, content: img, x: 50, y: 150, width: 200, height: 200 });
@@ -423,7 +565,7 @@
       render();
     }
 
-    function getMousePos(e) {
+    function getPos(e) {
       const rect = canvas.getBoundingClientRect();
       const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
       const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
@@ -431,20 +573,14 @@
     }
 
     canvas.addEventListener('mousedown', (e) => {
-      const pos = getMousePos(e);
-      // Check if we hit an element (reversed for top-most)
+      const pos = getPos(e);
       dragIndex = -1;
       for (let i = elements.length - 1; i >= 0; i--) {
         const el = elements[i];
-        if (el.type === 'emoji') {
-          if (pos.x > el.x && pos.x < el.x + 50 && pos.y < el.y && pos.y > el.y - 50) {
-            dragIndex = i; break;
-          }
-        } else {
-          if (pos.x > el.x && pos.x < el.x + el.width && pos.y > el.y && pos.y < el.y + el.height) {
-            dragIndex = i; break;
-          }
-        }
+        const hit = el.type === 'emoji' ?
+          (pos.x > el.x && pos.x < el.x + 60 && pos.y < el.y && pos.y > el.y - 60) :
+          (pos.x > el.x && pos.x < el.x + el.width && pos.y > el.y && pos.y < el.y + el.height);
+        if (hit) { dragIndex = i; break; }
       }
 
       if (dragIndex !== -1) {
@@ -453,56 +589,68 @@
         offsetY = pos.y - elements[dragIndex].y;
       } else {
         isDrawing = true;
-        dctx.beginPath();
-        dctx.moveTo(pos.x, pos.y);
+        dctx.beginPath(); dctx.moveTo(pos.x, pos.y);
       }
       render();
     });
 
+    // Double click to delete
+    canvas.addEventListener('dblclick', (e) => {
+      const pos = getPos(e);
+      elements = elements.filter(el => {
+        const hit = el.type === 'emoji' ?
+          (pos.x > el.x && pos.x < el.x + 60 && pos.y < el.y && pos.y > el.y - 60) :
+          (pos.x > el.x && pos.x < el.x + el.width && pos.y > el.y && pos.y < el.y + el.height);
+        return !hit;
+      });
+      render();
+    });
+
     window.addEventListener('mousemove', (e) => {
-      const pos = getMousePos(e);
+      const pos = getPos(e);
       if (isDragging) {
         elements[dragIndex].x = pos.x - offsetX;
         elements[dragIndex].y = pos.y - offsetY;
         render();
       } else if (isDrawing) {
         dctx.lineWidth = document.getElementById('brushSize').value;
-        dctx.lineCap = 'round';
-        dctx.strokeStyle = document.getElementById('colorPicker').value;
-        dctx.lineTo(pos.x, pos.y);
-        dctx.stroke();
-        render();
+        dctx.lineCap = 'round'; dctx.strokeStyle = document.getElementById('colorPicker').value;
+        dctx.lineTo(pos.x, pos.y); dctx.stroke(); render();
       }
     });
 
-    window.addEventListener('mouseup', () => {
-      isDragging = false; isDrawing = false;
-      render();
-    });
+    window.addEventListener('mouseup', () => { isDragging = false; isDrawing = false; render(); });
 
-    // Touch support
-    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); canvas.dispatchEvent(new MouseEvent('mousedown', { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY })); });
-    window.addEventListener('touchmove', (e) => { if (isDrawing || isDragging) { e.preventDefault(); window.dispatchEvent(new MouseEvent('mousemove', { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY })); } });
-    window.addEventListener('touchend', () => { window.dispatchEvent(new MouseEvent('mouseup', {})); });
+    // Size Slider Visual
+    document.getElementById('brushSize').oninput = function () {
+      document.getElementById('brush-val').innerText = this.value;
+    };
 
     function clearCanvas() {
-      elements = [];
-      dctx.clearRect(0, 0, 300, 500);
-      document.getElementById('design-overlay').src = "";
+      elements = []; dctx.clearRect(0, 0, 340, 550);
+      document.getElementById('design-overlay').style.opacity = '0';
+      setTimeout(() => { document.getElementById('design-overlay').src = ""; }, 500);
       render();
     }
 
     function applyToCase() {
-      document.getElementById('design-overlay').src = canvas.toDataURL();
+      const bar = document.getElementById('loading-bar');
+      bar.style.width = '30%';
+      setTimeout(() => {
+        bar.style.width = '100%';
+        document.getElementById('design-overlay').src = canvas.toDataURL();
+        document.getElementById('design-overlay').style.opacity = '1';
+        setTimeout(() => bar.style.width = '0', 400);
+      }, 300);
     }
 
-    document.getElementById('btn-import').onclick = () => document.getElementById('imageLoader').click();
     document.getElementById('imageLoader').onchange = (e) => {
       const reader = new FileReader();
-      reader.onload = (event) => addElement('image', event.target.result);
+      reader.onload = (ev) => addElement('image', ev.target.result);
       reader.readAsDataURL(e.target.files[0]);
     };
 
+    // Responsive Canvas
     render();
   </script>
 </body>
