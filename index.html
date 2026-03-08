@@ -4,302 +4,648 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Case Shop | Extreme Design Studio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>Premium Case Shop | Color-Shift Cases</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
     :root {
-      --primary: #1e88e5;
-      --primary-dark: #0d47a1;
-      --bg: #0f172a;
-      --white: #ffffff;
-      --surface: #1e293b;
-      --text: #f8fafc;
-      --text-light: #94a3b8;
-      --shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-      --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      --bg: #030712;
+      --surface: rgba(17, 24, 39, 0.7);
+      --text: #f9fafb;
+      --text-light: #9ca3af;
+      --gradient: linear-gradient(135deg, #6366f1, #a855f7);
       --accent: #f43f5e;
-      --accent-glow: 0 0 15px rgba(244, 63, 94, 0.4);
-      --gradient: linear-gradient(135deg, #1e88e5 0%, #7c3aed 100%);
+      --primary: #6366f1;
+    }
+
+    html {
+      scroll-behavior: smooth
     }
 
     body {
       font-family: 'Outfit', sans-serif;
-      background-color: var(--bg);
-      margin: 0;
+      background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
+      overflow-x: hidden
     }
 
-    .top-bar {
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(15px);
-      color: white;
-      padding: 15px 5%;
+    /* AURORA BG */
+    .aurora-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden
+    }
+
+    .aurora-bg span {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: .15;
+      animation: floatBlob 20s ease-in-out infinite alternate
+    }
+
+    .aurora-bg span:nth-child(1) {
+      width: 600px;
+      height: 600px;
+      background: #6366f1;
+      top: -10%;
+      left: 20%;
+      animation-delay: 0s
+    }
+
+    .aurora-bg span:nth-child(2) {
+      width: 500px;
+      height: 500px;
+      background: #a855f7;
+      bottom: 10%;
+      right: 10%;
+      animation-delay: -5s
+    }
+
+    .aurora-bg span:nth-child(3) {
+      width: 400px;
+      height: 400px;
+      background: #10b981;
+      top: 40%;
+      left: 60%;
+      animation-delay: -10s
+    }
+
+    @keyframes floatBlob {
+      0% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      50% {
+        transform: translate(60px, -40px) scale(1.2)
+      }
+
+      100% {
+        transform: translate(-30px, 50px) scale(.9)
+      }
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 18px 5%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-      position: sticky;
-      top: 0;
-      z-index: 2000;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(3, 7, 18, .6);
+      backdrop-filter: blur(20px);
+      z-index: 999;
+      border-bottom: 1px solid rgba(255, 255, 255, .05)
     }
 
-    .cart-info {
-      font-weight: 700;
-      font-size: 1.2rem;
-      text-shadow: 0 0 10px rgba(30, 136, 229, 0.5);
-    }
-
-    .lang-container select {
-      padding: 10px 15px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: var(--surface);
-      color: white;
-      font-family: inherit;
-      cursor: pointer;
-      outline: none;
-      transition: 0.3s;
-    }
-
-    .lang-container select:hover {
-      border-color: var(--primary);
-    }
-
-    .hero {
-      padding: 100px 20px 60px;
-      background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
-      text-align: center;
-      position: relative;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100px;
-      background: linear-gradient(to bottom, transparent, var(--bg));
-    }
-
-    h1 {
+    .logo {
       font-weight: 900;
-      margin: 0 0 10px 0;
-      font-size: 4rem;
-      letter-spacing: -2px;
+      font-size: 1.4rem;
       background: var(--gradient);
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-text-fill-color: transparent
+    }
+
+    nav select {
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, .15);
+      background: rgba(255, 255, 255, .05);
+      color: #fff;
+      font-family: inherit;
+      cursor: pointer
+    }
+
+    .cart-badge {
+      font-weight: 700;
+      font-size: 1.1rem
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 20px 80px;
+      position: relative
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      letter-spacing: -3px;
+      line-height: 1.05;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent
     }
 
     .hero p {
       color: var(--text-light);
       font-size: 1.2rem;
-      max-width: 600px;
-      margin: 10px auto;
+      max-width: 550px;
+      margin: 0 auto 40px
     }
 
-    .studio-section {
-      padding: 80px 5%;
-      position: relative;
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center
     }
 
-    .studio-container {
+    .btn {
+      padding: 16px 32px;
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all .35s cubic-bezier(.4, 0, .2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .btn-glow {
+      background: var(--gradient);
+      color: #fff;
+      box-shadow: 0 8px 30px rgba(99, 102, 241, .4)
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .2)
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.03)
+    }
+
+    /* HERO VIDEO */
+    .hero-video-wrap {
+      margin-top: 40px;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      perspective: 1200px
+    }
+
+    .hero-video {
+      width: 100%;
+      max-width: 700px;
+      border-radius: 24px;
+      box-shadow: 0 30px 80px rgba(99, 102, 241, .25), 0 0 60px rgba(139, 92, 246, .15);
+      border: 1px solid rgba(255, 255, 255, .08);
+      display: block
+    }
+
+    .shift-case {
+      width: 140px;
+      height: 260px;
+      border-radius: 30px;
+      position: relative;
+      cursor: pointer;
+      transition: transform .6s cubic-bezier(.4, 0, .2, 1);
+      transform-style: preserve-3d;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, .1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .5)
+    }
+
+    .shift-case:hover {
+      transform: rotateY(15deg) rotateX(-5deg) scale(1.08)
+    }
+
+    .shift-case .gradient-fill {
+      position: absolute;
+      inset: 0;
+      background-size: 300% 300%;
+      animation: colorShift 6s ease infinite;
+      border-radius: 28px
+    }
+
+    .shift-case:nth-child(1) .gradient-fill {
+      background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #667eea);
+      animation-delay: 0s
+    }
+
+    .shift-case:nth-child(2) .gradient-fill {
+      background: linear-gradient(135deg, #f093fb, #f5576c, #ffd700, #f093fb);
+      animation-delay: -2s
+    }
+
+    .shift-case:nth-child(3) .gradient-fill {
+      background: linear-gradient(135deg, #4facfe, #00f2fe, #43e97b, #4facfe);
+      animation-delay: -4s
+    }
+
+    .shift-case .cam {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 36px;
+      height: 36px;
+      background: #000;
+      border-radius: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 4px;
+      gap: 2px;
+      z-index: 2
+    }
+
+    .shift-case .cam div {
+      background: #111;
+      border-radius: 50%;
+      border: 1px solid #333
+    }
+
+    .shift-case .shine {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .25) 0%, transparent 50%, rgba(255, 255, 255, .05) 100%);
+      z-index: 3;
+      pointer-events: none;
+      border-radius: 28px
+    }
+
+    @keyframes colorShift {
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    /* SECTION STYLING */
+    section {
+      padding: 100px 5%
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      margin-bottom: 12px
+    }
+
+    .section-sub {
+      text-align: center;
+      color: var(--text-light);
+      max-width: 500px;
+      margin: 0 auto 60px;
+      font-size: 1.05rem
+    }
+
+    /* BENTO GRID */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto
+    }
+
+    .bento-card {
+      background: var(--surface);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 28px;
+      padding: 40px;
+      transition: all .4s;
+      position: relative;
+      overflow: hidden
+    }
+
+    .bento-card:hover {
+      border-color: rgba(99, 102, 241, .4);
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, .4)
+    }
+
+    .bento-card .icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      display: block
+    }
+
+    .bento-card h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .bento-card p {
+      color: var(--text-light);
+      line-height: 1.7
+    }
+
+    /* PRODUCT CARDS */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      max-width: 1200px;
+      margin: 0 auto
+    }
+
+    .product {
+      background: var(--surface);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 32px;
+      padding: 0;
+      overflow: hidden;
+      transition: all .5s cubic-bezier(.2, .8, .2, 1);
+      position: relative
+    }
+
+    .product:hover {
+      transform: translateY(-16px);
+      border-color: rgba(99, 102, 241, .4);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, .5)
+    }
+
+    .product-preview {
+      height: 220px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .product-preview .mini-case {
+      width: 100px;
+      height: 180px;
+      border-radius: 22px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, .1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
+      transition: transform .6s
+    }
+
+    .product:hover .mini-case {
+      transform: rotateY(10deg) scale(1.05)
+    }
+
+    .mini-case .gradient-fill {
+      position: absolute;
+      inset: 0;
+      background-size: 300% 300%;
+      animation: colorShift 5s ease infinite;
+      border-radius: 20px
+    }
+
+    .mini-case .shine {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .2) 0%, transparent 50%);
+      border-radius: 20px;
+      z-index: 2
+    }
+
+    .mini-case .cam {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 26px;
+      height: 26px;
+      background: #000;
+      border-radius: 7px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 3px;
+      gap: 1px;
+      z-index: 3
+    }
+
+    .mini-case .cam div {
+      background: #111;
+      border-radius: 50%;
+      border: 1px solid #333
+    }
+
+    .product-info {
+      padding: 28px 32px 32px
+    }
+
+    .product-info h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 6px
+    }
+
+    .product-info .desc {
+      color: var(--text-light);
+      font-size: .95rem;
+      margin-bottom: 16px
+    }
+
+    .price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .price {
+      font-size: 1.6rem;
+      font-weight: 900;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent
+    }
+
+    .add-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 50px;
+      background: var(--gradient);
+      color: #fff;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all .3s;
+      font-size: .9rem
+    }
+
+    .add-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, .4)
+    }
+
+    /* STUDIO */
+    .studio-wrap {
+      display: flex;
       gap: 50px;
+      max-width: 1200px;
+      margin: 0 auto;
       flex-wrap: wrap;
-      margin-top: 40px;
+      justify-content: center;
+      align-items: flex-start
     }
 
     .drawing-board {
       background: var(--surface);
-      padding: 30px;
-      border-radius: 30px;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      max-width: 400px;
+      backdrop-filter: blur(30px);
+      padding: 36px;
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, .08);
+      max-width: 420px;
+      flex: 1;
+      min-width: 340px
     }
 
     canvas {
-      background: white;
+      background: #fff;
       border-radius: 20px;
       cursor: crosshair;
       touch-action: none;
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, .05)
     }
 
-    .tools-pane {
-      margin-top: 25px;
+    .tools {
+      margin-top: 20px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px
     }
 
     .tool-group {
-      background: rgba(0, 0, 0, 0.2);
-      padding: 15px;
-      border-radius: 20px;
+      background: rgba(0, 0, 0, .2);
+      padding: 14px;
+      border-radius: 16px
     }
 
     .tool-label {
-      font-size: 0.8rem;
+      font-size: .75rem;
       font-weight: 700;
       text-transform: uppercase;
       color: var(--text-light);
-      margin-bottom: 10px;
-      display: block;
+      margin-bottom: 8px;
+      display: block
     }
 
     .emoji-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      gap: 10px;
-      max-height: 150px;
-      overflow-y: auto;
-      padding-right: 5px;
+      gap: 8px;
+      max-height: 130px;
+      overflow-y: auto
     }
 
     .emoji-grid::-webkit-scrollbar {
-      width: 4px;
+      width: 4px
     }
 
     .emoji-grid::-webkit-scrollbar-thumb {
       background: var(--primary);
-      border-radius: 10px;
+      border-radius: 10px
     }
 
     .emoji-btn {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       cursor: pointer;
-      transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      background: rgba(255, 255, 255, 0.05);
+      transition: .2s;
+      background: rgba(255, 255, 255, .05);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 5px;
-      border-radius: 10px;
+      padding: 4px;
+      border-radius: 8px
     }
 
     .emoji-btn:hover {
       transform: scale(1.3);
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, .1)
     }
 
     .controls-row {
       display: flex;
-      gap: 15px;
-      align-items: center;
+      gap: 12px;
+      align-items: center
     }
 
-    .btn {
-      padding: 15px 25px;
-      border: none;
-      border-radius: 16px;
-      cursor: pointer;
-      font-weight: 700;
-      font-family: inherit;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-size: 1rem;
-    }
-
-    .btn-primary {
-      background: var(--gradient);
-      color: white;
-      box-shadow: 0 10px 20px rgba(30, 136, 229, 0.3);
-    }
-
-    .btn-secondary {
-      background: var(--surface);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .btn-glow {
-      background: var(--accent);
-      color: white;
-      box-shadow: var(--accent-glow);
-    }
-
-    .btn:hover {
-      transform: translateY(-5px) scale(1.02);
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .preview-column {
+    .preview-col {
       position: sticky;
-      top: 120px;
+      top: 120px
     }
 
     .phone-mockup {
-      width: 320px;
-      height: 600px;
-      background: #050505;
+      width: 280px;
+      height: 540px;
+      background: #000;
       border-radius: 50px;
       position: relative;
-      padding: 15px;
-      box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8);
-      border: 4px solid #1a1a1a;
+      padding: 10px;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, .6);
+      border: 5px solid #1f2937
     }
 
     .phone-case {
       width: 100%;
       height: 100%;
-      background: #fff;
       border-radius: 40px;
       overflow: hidden;
       position: relative;
-      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, .03);
+      box-shadow: inset 0 0 40px rgba(255, 255, 255, .03)
     }
 
-    .bezel-glow {
+    .phone-case .aurora-anim {
       position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      border-radius: 54px;
-      background: linear-gradient(var(--bg), var(--bg)) padding-box, var(--gradient) border-box;
-      border: 2px solid transparent;
-      pointer-events: none;
-      z-index: -1;
+      inset: 0;
+      background: linear-gradient(217deg, #4f46e5, transparent 70%),
+        linear-gradient(127deg, #3b82f6, transparent 70%), linear-gradient(336deg, #10b981, transparent 70%),
+        linear-gradient(45deg, #a855f7, transparent 70%);
+      background-size: 200% 200%;
+      animation: colorShift 12s ease infinite
     }
 
     .camera-island {
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
       background: #000;
       position: absolute;
-      top: 30px;
-      left: 30px;
-      border-radius: 20px;
+      top: 24px;
+      left: 24px;
+      border-radius: 18px;
       z-index: 10;
       display: flex;
       flex-wrap: wrap;
-      padding: 8px;
-      gap: 5px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      padding: 6px;
+      gap: 4px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .5)
     }
 
     .lens {
-      width: 25px;
-      height: 25px;
+      width: 22px;
+      height: 22px;
       background: #080808;
       border-radius: 50%;
-      border: 1px solid #222;
+      border: 1px solid #222
     }
 
     #design-overlay {
@@ -310,77 +656,95 @@
       position: absolute;
       top: 0;
       left: 0;
-      transition: opacity 0.5s ease;
+      transition: all .5s cubic-bezier(.23, 1, .32, 1);
+      z-index: 5
     }
 
-    .container {
+    .phone-case::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .12) 0%, transparent 50%, rgba(255, 255, 255, .04) 100%);
+      pointer-events: none;
+      z-index: 10
+    }
+
+    /* SCROLL ANIMATIONS */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all .8s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+      border-top: 1px solid rgba(255, 255, 255, .05);
+      margin-top: 80px
+    }
+
+    footer .pay {
+      font-size: .85rem;
+      letter-spacing: 1px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 16px
+    }
+
+    footer .icons {
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 30px;
-      padding: 100px 5%;
-      max-width: 1400px;
-      margin: 0 auto;
+      gap: 24px;
+      font-size: 1.8rem;
+      opacity: .5;
+      filter: grayscale(1)
     }
 
-    .card {
-      background: var(--surface);
-      width: 320px;
-      padding: 40px;
-      border-radius: 30px;
-      box-shadow: var(--card-shadow);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      transition: 0.4s;
-      text-align: center;
-    }
-
-    .card:hover {
-      transform: translateY(-15px);
-      border-color: var(--primary);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .case-icon {
-      font-size: 4rem;
-      margin-bottom: 20px;
-      display: block;
-      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
-    }
-
-    .price {
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--primary);
-      margin: 20px 0;
-    }
-
-    .instruction-overlay {
-      background: rgba(30, 136, 229, 0.1);
-      border-radius: 20px;
-      padding: 15px;
-      margin-bottom: 25px;
-      border: 1px dashed var(--primary);
-    }
-
+    /* LOADING BAR */
     #loading-bar {
       position: fixed;
       top: 0;
       left: 0;
-      height: 4px;
+      height: 3px;
       background: var(--gradient);
       width: 0;
-      z-index: 3000;
-      transition: width 0.3s;
+      z-index: 9999;
+      transition: width .3s
+    }
+
+    @media(max-width:768px) {
+      .hero-video {
+        max-width: 100%;
+        border-radius: 16px
+      }
+
+      .studio-wrap {
+        flex-direction: column;
+        align-items: center
+      }
+
+      .preview-col {
+        position: static
+      }
     }
   </style>
 </head>
 
 <body>
+  <div class="aurora-bg"><span></span><span></span><span></span></div>
   <div id="loading-bar"></div>
 
-  <div class="top-bar">
-    <div class="cart-info" id="cart-text">🛒 KOSZYK: 0 SZT.</div>
-    <div class="lang-container">
+  <nav>
+    <div class="logo">ELITE CASE STUDIO</div>
+    <div style="display:flex;gap:16px;align-items:center">
+      <span class="cart-badge" id="cart-text">🛒 0</span>
       <select id="lang-select" onchange="changeLanguage(this.value)">
         <option value="pl">Polski</option>
         <option value="en">English</option>
@@ -389,66 +753,98 @@
         <option value="zh">中文</option>
       </select>
     </div>
-  </div>
+  </nav>
 
-  <div class="hero">
-    <h1 id="main-title">ELITE CASE STUDIO</h1>
-    <p id="hero-subtitle">Najbardziej zaawansowany kreator personalizacji w sieci.</p>
-    <div style="margin-top: 30px;">
-      <select id="model-select" class="btn btn-secondary" style="display:inline-block; width: auto;">
-        <option>iPhone 15 Pro Max</option>
-        <option>Samsung Galaxy S24 Ultra</option>
-        <option>Google Pixel 8 Pro</option>
-        <option>Xiaomi 14 Ultra</option>
-      </select>
+  <!-- HERO -->
+  <section class="hero">
+    <h1 id="main-title">Case, Który Zmienia<br>Kolory</h1>
+    <p id="hero-subtitle">Żywe gradienty reagujące na światło. Zaprojektowany dla tych, którzy wyróżniają się z tłumu.
+    </p>
+    <div class="hero-cta">
+      <a href="#products" class="btn btn-glow">🛍️ <span id="cta-shop">ZOBACZ KOLEKCJĘ</span></a>
+      <a href="#studio" class="btn btn-ghost">🎨 <span id="cta-create">STWÓRZ SWÓJ</span></a>
     </div>
-  </div>
+    <div class="hero-video-wrap">
+      <video class="hero-video" autoplay loop muted playsinline>
+        <source src="rzeczy-prompt/Phones_front_to_back_animation_5c049be10b.mp4" type="video/mp4">
+      </video>
+    </div>
+  </section>
 
-  <div class="studio-section">
-    <div class="studio-container">
+  <!-- FEATURES -->
+  <section class="fade-up">
+    <h2 class="section-title" id="feat-title">Dlaczego Nasze Case?</h2>
+    <p class="section-sub" id="feat-sub">Technologia zmieniających się kolorów zamknięta w premium obudowie.</p>
+    <div class="bento">
+      <div class="bento-card"><span class="icon">🌈</span>
+        <h3 id="f1t">Color-Shift</h3>
+        <p id="f1d">Dynamiczny gradient zmienia kolory pod każdym kątem.</p>
+      </div>
+      <div class="bento-card"><span class="icon">🛡️</span>
+        <h3 id="f2t">MIL-STD Ochrona</h3>
+        <p id="f2d">Testowane upadki z 2 metrów. Twój telefon jest bezpieczny.</p>
+      </div>
+      <div class="bento-card"><span class="icon">✨</span>
+        <h3 id="f3t">Premium Materiał</h3>
+        <p id="f3d">Matowe wykończenie, które nie zbiera odcisków palców.</p>
+      </div>
+      <div class="bento-card"><span class="icon">🎨</span>
+        <h3 id="f4t">Personalizacja</h3>
+        <p id="f4d">Rysuj, dodawaj emoji, importuj własne grafiki na case.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products" class="fade-up">
+    <h2 class="section-title" id="prod-title">Kolekcja Color-Shift</h2>
+    <p class="section-sub" id="prod-sub">Każdy case zmienia kolory w zależności od kąta patrzenia.</p>
+    <div class="products" id="product-grid"></div>
+  </section>
+
+  <!-- STUDIO -->
+  <section id="studio" class="fade-up">
+    <h2 class="section-title" id="studio-title">Studio Projektowe</h2>
+    <p class="section-sub" id="studio-sub">Stwórz własny, unikalny design.</p>
+    <div class="studio-wrap">
       <div class="drawing-board">
-        <div class="instruction-overlay" id="drag-tip">
-          💡 <b>PRO TIP:</b> Przeciągnij emoji myszką po ich dodaniu. Podwójne kliknięcie usuwa element!
+        <div
+          style="background:rgba(99,102,241,.1);border-radius:16px;padding:12px;margin-bottom:16px;border:1px dashed rgba(99,102,241,.3)">
+          💡 <b>PRO TIP:</b> <span id="drag-tip">Przeciągnij emoji myszką. Podwójne kliknięcie usuwa!</span>
         </div>
-
-        <canvas id="paintCanvas" width="340" height="550"></canvas>
-
-        <div class="tools-pane">
+        <canvas id="paintCanvas" width="340" height="500"></canvas>
+        <div class="tools">
           <div class="tool-group">
-            <span class="tool-label">Pędzel i Kolory</span>
+            <span class="tool-label" id="lbl-brush">Pędzel i Kolory</span>
             <div class="controls-row">
-              <input type="color" id="colorPicker" value="#1e88e5"
-                style="width: 50px; height: 50px; border: none; background: none; cursor: pointer;">
-              <input type="range" id="brushSize" min="1" max="80" value="8" style="flex-grow: 1;">
-              <span id="brush-val" style="width: 30px; font-weight: 700;">8</span>
+              <input type="color" id="colorPicker" value="#6366f1"
+                style="width:46px;height:46px;border:none;background:none;cursor:pointer">
+              <input type="range" id="brushSize" min="1" max="80" value="8" style="flex-grow:1">
+              <span id="brush-val" style="width:28px;font-weight:700">8</span>
             </div>
           </div>
-
           <div class="tool-group">
-            <span class="tool-label">Mega Emoji Panel</span>
-            <div class="emoji-grid" id="emoji-grid">
-              <!-- Dynamically populated -->
-            </div>
+            <span class="tool-label" id="lbl-emoji">Emoji Panel</span>
+            <div class="emoji-grid" id="emoji-grid"></div>
           </div>
-
-          <div class="controls-row" style="flex-direction: column;">
-            <button class="btn btn-secondary btn-file" onclick="document.getElementById('imageLoader').click()">
-              🖼️ PRO IMPORT GRAFIKI
-            </button>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <button class="btn btn-ghost" style="width:100%;justify-content:center"
+              onclick="document.getElementById('imageLoader').click()">🖼️ <span id="btn-import">IMPORTUJ
+                GRAFIKĘ</span></button>
             <input type="file" id="imageLoader" accept="image/*" style="display:none">
-
-            <div class="controls-row" style="width: 100%;">
-              <button class="btn btn-secondary" style="flex: 1;" onclick="clearCanvas()">🗑️ CZYŚĆ</button>
-              <button class="btn btn-primary" style="flex: 2;" onclick="applyToCase()">✨ GENERUJ PROJEKT</button>
+            <div class="controls-row">
+              <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="clearCanvas()">🗑️ <span
+                  id="btn-clear">CZYŚĆ</span></button>
+              <button class="btn btn-glow" style="flex:2;justify-content:center" onclick="applyToCase()">✨ <span
+                  id="btn-apply">GENERUJ</span></button>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="preview-column">
+      <div class="preview-col">
         <div class="phone-mockup">
-          <div class="bezel-glow"></div>
-          <div class="phone-case">
+          <div class="phone-case" id="case-body">
+            <div class="aurora-anim"></div>
             <div class="camera-island">
               <div class="lens"></div>
               <div class="lens"></div>
@@ -458,200 +854,219 @@
             <img id="design-overlay" src="" alt="">
           </div>
         </div>
-        <p style="text-align: center; margin-top: 30px; font-weight: 900; letter-spacing: 2px;" id="preview-label">LIVE
-          PREVIEW</p>
+        <p style="text-align:center;margin-top:24px;font-weight:900;letter-spacing:2px" id="preview-label">LIVE PREVIEW
+        </p>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="container">
-    <div class="card">
-      <span class="case-icon">💎</span>
-      <h2 id="card1-title">Ultra Sapphire</h2>
-      <p id="card1-desc">Wzmocnione szkło i diamentowy blask.</p>
-      <div class="price">129 PLN</div>
-      <button class="btn btn-primary" onclick="addToCart()">DO KOSZYKA</button>
-    </div>
-    <div class="card">
-      <span class="case-icon">⚡</span>
-      <h2 id="card2-title">Carbon Pro</h2>
-      <p id="card2-desc">Prawdziwe włókno węglowe. Niezniszczalne.</p>
-      <div class="price">189 PLN</div>
-      <button class="btn btn-primary" onclick="addToCart()">DO KOSZYKA</button>
-    </div>
-    <div class="card">
-      <span class="case-icon">🌈</span>
-      <h2 id="card3-title">Holographic</h2>
-      <p id="card3-desc">Zmienia kolory pod kątem światła.</p>
-      <div class="price">99 PLN</div>
-      <button class="btn btn-primary" onclick="addToCart()">DO KOSZYKA</button>
-    </div>
-  </div>
+  <footer>
+    <div class="pay" id="payment-label">Bezpieczne Płatności</div>
+    <div class="icons"><span>💳</span><span>📱</span><span>💰</span><span>🏦</span></div>
+    <p style="margin-top:24px" id="footer-text">© 2026 Elite Case Studio. Wykonane z pasją do designu.</p>
+  </footer>
 
   <script>
-    const emojis = ["🔥", "✨", "❤️", "😎", "🌈", "👾", "🍕", "⭐", "🚀", "💎", "👻", "🦄", "⚡", "🍀", "👑", "🍕", "🐱", "🐶", "🐵", "🦁", "🐯", "🐼", "🐸", "🐷", "🎸", "🎧", "🎬", "🎨", "🎮", "👾", "👽", "🤖", "🥑", "🍩", "🍔", "🍦"];
+    // PRODUCTS DATA
+    const productsData = [
+      { name: "Aurora Violet", desc: "Fioletowo-różowy gradient", price: "129 PLN", colors: ["#667eea", "#764ba2", "#f093fb", "#667eea"], delay: 0 },
+      { name: "Sunset Blaze", desc: "Ogniste przejścia kolorów", price: "129 PLN", colors: ["#f093fb", "#f5576c", "#ffd700", "#f093fb"], delay: -1.5 },
+      { name: "Ocean Breeze", desc: "Morskie odcienie błękitu", price: "129 PLN", colors: ["#4facfe", "#00f2fe", "#43e97b", "#4facfe"], delay: -3 },
+      { name: "Midnight Galaxy", desc: "Kosmiczne fiolety i granaty", price: "149 PLN", colors: ["#0c0032", "#190061", "#6b38fb", "#0c0032"], delay: -1 },
+      { name: "Neon Pulse", desc: "Elektryzujące neony", price: "139 PLN", colors: ["#00ff87", "#60efff", "#ff00e5", "#00ff87"], delay: -2 },
+      { name: "Rose Gold", desc: "Elegancki złoto-różowy", price: "159 PLN", colors: ["#f4c4f3", "#fc5c7d", "#e8cbc0", "#f4c4f3"], delay: -4 },
+    ];
 
+    function renderProducts() {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = '';
+      productsData.forEach((p, i) => {
+        const g = `linear-gradient(135deg,${p.colors.join(',')})`;
+        grid.innerHTML += `<div class="product fade-up" style="transition-delay:${i * .1}s">
+      <div class="product-preview" style="background:radial-gradient(circle at 50% 80%,rgba(99,102,241,.1),transparent)">
+        <div class="mini-case" style="transform-style:preserve-3d">
+          <div class="gradient-fill" style="background:${g};background-size:300% 300%;animation:colorShift ${4 + i}s ease infinite;animation-delay:${p.delay}s"></div>
+          <div class="cam"><div></div><div></div><div></div><div></div></div>
+          <div class="shine"></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <h3>${p.name}</h3>
+        <p class="desc">${p.desc}</p>
+        <div class="price-row">
+          <span class="price">${p.price}</span>
+          <button class="add-btn cart-btn" onclick="addToCart()">${translations[currentLang].buy}</button>
+        </div>
+      </div>
+    </div>`;
+      });
+      observeFadeUps();
+    }
+
+    // TRANSLATIONS
     const translations = {
-      pl: { cart: "🛒 KOSZYK: {count} SZT.", title: "ELITE CASE STUDIO", subtitle: "Najbardziej zaawansowany kreator personalizacji w sieci.", clear: "🗑️ CZYŚĆ", apply: "✨ GENERUJ PROJEKT", import: "🖼️ PRO IMPORT GRAFIKI", preview: "LIVE PREVIEW", tip: "💡 PRO TIP: Przeciągnij emoji myszką. Podwójne kliknięcie usuwa element!" },
-      en: { cart: "🛒 CART: {count} PCS.", title: "ELITE CASE STUDIO", subtitle: "The most advanced customization engine on the web.", clear: "🗑️ CLEAR", apply: "✨ GENERATE DESIGN", import: "🖼️ PRO IMAGE IMPORT", preview: "LIVE PREVIEW", tip: "💡 PRO TIP: Drag emojis with your mouse. Double click to remove!" },
-      es: { cart: "🛒 CARRITO: {count} UD.", title: "ESTUDIO ELITE", subtitle: "El motor de personalización más avanzado de la web.", clear: "🗑️ BORRAR", apply: "✨ GENERAR DISEÑO", import: "🖼️ IMPORTAR IMAGEN", preview: "VISTA PREVIA", tip: "💡 TIP: ¡Arrastra los emojis! ¡Doble clic para borrar!" },
-      de: { cart: "🛒 WARENKORB: {count} STK.", title: "ELITE STUDIO", subtitle: "Die fortschrittlichste Engine im Web.", clear: "🗑️ LEEREN", apply: "✨ DESIGN GENERIEREN", import: "🖼️ BILD IMPORTIEREN", preview: "VORSCHAU", tip: "💡 PRO TIP: Emojis ziehen zum Verschieben. Doppelklick zum Löschen!" },
-      zh: { cart: "🛒 购物车: {count} 件", title: "精英工作室", subtitle: "网络上最先进的高度定。制化平台。", clear: "🗑️ 清除", apply: "✨ 生成设计", import: "🖼️ 导入图片", preview: "实时预览", tip: "💡 提示：拖动表情符号，双击可删除！" }
+      pl: {
+        cart: "🛒 {count}", title: "Case, Który Zmienia<br>Kolory", subtitle: "Żywe gradienty reagujące na światło. Zaprojektowany dla tych, którzy wyróżniają się z tłumu.",
+        buy: "DO KOSZYKA", shop: "ZOBACZ KOLEKCJĘ", create: "STWÓRZ SWÓJ",
+        featTitle: "Dlaczego Nasze Case?", featSub: "Technologia zmieniających się kolorów zamknięta w premium obudowie.",
+        prodTitle: "Kolekcja Color-Shift", prodSub: "Każdy case zmienia kolory w zależności od kąta patrzenia.",
+        studioTitle: "Studio Projektowe", studioSub: "Stwórz własny, unikalny design.",
+        tip: "Przeciągnij emoji myszką. Podwójne kliknięcie usuwa!", brush: "Pędzel i Kolory", emoji: "Emoji Panel",
+        importBtn: "IMPORTUJ GRAFIKĘ", clearBtn: "CZYŚĆ", applyBtn: "GENERUJ", preview: "LIVE PREVIEW",
+        f: [{ t: "Color-Shift", d: "Dynamiczny gradient zmienia kolory pod każdym kątem." }, { t: "MIL-STD Ochrona", d: "Testowane upadki z 2 metrów. Twój telefon jest bezpieczny." },
+        { t: "Premium Materiał", d: "Matowe wykończenie, które nie zbiera odcisków palców." }, { t: "Personalizacja", d: "Rysuj, dodawaj emoji, importuj własne grafiki na case." }],
+        pay: "Bezpieczne Płatności", footer: "© 2026 Elite Case Studio. Wykonane z pasją do designu."
+      },
+      en: {
+        cart: "🛒 {count}", title: "Cases That Change<br>Colors", subtitle: "Living gradients that react to light. Designed for those who stand out.",
+        buy: "ADD TO CART", shop: "VIEW COLLECTION", create: "CREATE YOURS",
+        featTitle: "Why Our Cases?", featSub: "Color-shifting technology in a premium shell.",
+        prodTitle: "Color-Shift Collection", prodSub: "Each case changes colors depending on the viewing angle.",
+        studioTitle: "Design Studio", studioSub: "Create your own unique design.",
+        tip: "Drag emojis with mouse. Double click to remove!", brush: "Brush & Colors", emoji: "Emoji Panel",
+        importBtn: "IMPORT IMAGE", clearBtn: "CLEAR", applyBtn: "GENERATE", preview: "LIVE PREVIEW",
+        f: [{ t: "Color-Shift", d: "Dynamic gradient changes colors at every angle." }, { t: "MIL-STD Protection", d: "Drop tested from 2 meters. Your phone is safe." },
+        { t: "Premium Material", d: "Matte finish that doesn't collect fingerprints." }, { t: "Customization", d: "Draw, add emojis, import your own graphics." }],
+        pay: "Secure Payments", footer: "© 2026 Elite Case Studio. Made with passion for design."
+      },
+      es: {
+        cart: "🛒 {count}", title: "Fundas Que Cambian<br>De Color", subtitle: "Gradientes vivos que reaccionan a la luz.",
+        buy: "AL CARRITO", shop: "VER COLECCIÓN", create: "CREA EL TUYO",
+        featTitle: "¿Por Qué Nuestras Fundas?", featSub: "Tecnología de cambio de color en una carcasa premium.",
+        prodTitle: "Colección Color-Shift", prodSub: "Cada funda cambia de color según el ángulo.",
+        studioTitle: "Estudio de Diseño", studioSub: "Crea tu diseño único.",
+        tip: "Arrastra emojis. ¡Doble clic para borrar!", brush: "Pincel y Colores", emoji: "Panel Emoji",
+        importBtn: "IMPORTAR IMAGEN", clearBtn: "BORRAR", applyBtn: "GENERAR", preview: "VISTA PREVIA",
+        f: [{ t: "Color-Shift", d: "Gradiente dinámico." }, { t: "Protección MIL-STD", d: "Probado con caídas de 2m." },
+        { t: "Material Premium", d: "Acabado mate sin huellas." }, { t: "Personalización", d: "Dibuja, emojis, importa gráficos." }],
+        pay: "Pagos Seguros", footer: "© 2026 Elite Case Studio."
+      },
+      de: {
+        cart: "🛒 {count}", title: "Hüllen Die Farben<br>Wechseln", subtitle: "Lebendige Verläufe, die auf Licht reagieren.",
+        buy: "IN DEN WARENKORB", shop: "KOLLEKTION", create: "GESTALTE DEINE",
+        featTitle: "Warum Unsere Hüllen?", featSub: "Farbwechsel-Technologie in Premium-Qualität.",
+        prodTitle: "Color-Shift Kollektion", prodSub: "Jede Hülle wechselt die Farben je nach Blickwinkel.",
+        studioTitle: "Design Studio", studioSub: "Erstelle dein eigenes Design.",
+        tip: "Emojis ziehen. Doppelklick zum Löschen!", brush: "Pinsel & Farben", emoji: "Emoji Panel",
+        importBtn: "BILD IMPORTIEREN", clearBtn: "LEEREN", applyBtn: "GENERIEREN", preview: "VORSCHAU",
+        f: [{ t: "Color-Shift", d: "Dynamischer Farbverlauf." }, { t: "MIL-STD Schutz", d: "Sturzgetestet aus 2m." },
+        { t: "Premium Material", d: "Mattes Finish ohne Fingerabdrücke." }, { t: "Personalisierung", d: "Zeichne, Emojis, importiere Grafiken." }],
+        pay: "Sichere Zahlungen", footer: "© 2026 Elite Case Studio."
+      },
+      zh: {
+        cart: "🛒 {count}", title: "变色手机壳", subtitle: "随光变色的动态渐变设计。",
+        buy: "加入购物车", shop: "查看系列", create: "创建你的",
+        featTitle: "为什么选择我们？", featSub: "高端外壳中的变色技术。",
+        prodTitle: "变色系列", prodSub: "每个手机壳随角度变换颜色。",
+        studioTitle: "设计工作室", studioSub: "创建你的独特设计。",
+        tip: "拖动表情，双击删除！", brush: "画笔和颜色", emoji: "表情面板",
+        importBtn: "导入图片", clearBtn: "清除", applyBtn: "生成", preview: "实时预览",
+        f: [{ t: "变色效果", d: "动态渐变色彩。" }, { t: "军标防护", d: "2米跌落测试。" },
+        { t: "高端材质", d: "哑光不留指纹。" }, { t: "个性定制", d: "绘画、表情、导入图片。" }],
+        pay: "安全支付", footer: "© 2026 Elite Case Studio."
+      }
     };
 
     let count = 0, currentLang = 'pl';
     const canvas = document.getElementById('paintCanvas'), ctx = canvas.getContext('2d');
-    let elements = [], isDrawing = false, isDragging = false, dragIndex = -1, offsetX, offsetY;
-    const drawingLayer = document.createElement('canvas');
-    drawingLayer.width = 340; drawingLayer.height = 550;
-    const dctx = drawingLayer.getContext('2d');
+    let elements = [], isDrawing = false, isDragging = false, dragIndex = -1, offX, offY;
+    const drawLayer = document.createElement('canvas'); drawLayer.width = 340; drawLayer.height = 500;
+    const dctx = drawLayer.getContext('2d');
 
-    // Init Emoji Grid
-    const emojiGrid = document.getElementById('emoji-grid');
-    emojis.forEach(e => {
-      const span = document.createElement('span');
-      span.className = 'emoji-btn';
-      span.innerText = e;
-      span.onclick = () => addElement('emoji', e);
-      emojiGrid.appendChild(span);
-    });
+    // EMOJIS
+    const emojis = ["🔥", "✨", "❤️", "😎", "🌈", "👾", "🍕", "⭐", "🚀", "💎", "👻", "🦄", "⚡", "🍀", "👑", "🐱", "🐶", "🦁", "🐼", "🎸", "🎧", "🎨", "🎮", "🤖", "🥑", "🍩", "🍔", "🍦"];
+    const eg = document.getElementById('emoji-grid');
+    emojis.forEach(e => { const s = document.createElement('span'); s.className = 'emoji-btn'; s.innerText = e; s.onclick = () => addElement('emoji', e); eg.appendChild(s) });
 
-    function updateCart() { document.getElementById("cart-text").innerText = translations[currentLang].cart.replace("{count}", count); }
-    function addToCart() {
-      count++;
-      updateCart();
-      document.getElementById('loading-bar').style.width = '100%';
-      setTimeout(() => document.getElementById('loading-bar').style.width = '0', 500);
-    }
+    function updateCart() { document.getElementById('cart-text').innerText = translations[currentLang].cart.replace('{count}', count) }
+    function addToCart() { count++; updateCart(); const b = document.getElementById('loading-bar'); b.style.width = '100%'; setTimeout(() => b.style.width = '0', 500) }
 
     function changeLanguage(lang) {
       currentLang = lang; const t = translations[lang];
-      document.getElementById("main-title").innerText = t.title;
-      document.getElementById("hero-subtitle").innerText = t.subtitle;
-      document.getElementById("preview-label").innerText = t.preview;
-      document.getElementById("drag-tip").innerHTML = t.tip;
-      updateCart();
+      document.getElementById('main-title').innerHTML = t.title;
+      document.getElementById('hero-subtitle').innerText = t.subtitle;
+      document.getElementById('cta-shop').innerText = t.shop;
+      document.getElementById('cta-create').innerText = t.create;
+      document.getElementById('feat-title').innerText = t.featTitle;
+      document.getElementById('feat-sub').innerText = t.featSub;
+      document.getElementById('prod-title').innerText = t.prodTitle;
+      document.getElementById('prod-sub').innerText = t.prodSub;
+      document.getElementById('studio-title').innerText = t.studioTitle;
+      document.getElementById('studio-sub').innerText = t.studioSub;
+      document.getElementById('drag-tip').innerText = t.tip;
+      document.getElementById('lbl-brush').innerText = t.brush;
+      document.getElementById('lbl-emoji').innerText = t.emoji;
+      document.getElementById('btn-import').innerText = t.importBtn;
+      document.getElementById('btn-clear').innerText = t.clearBtn;
+      document.getElementById('btn-apply').innerText = t.applyBtn;
+      document.getElementById('preview-label').innerText = t.preview;
+      document.getElementById('payment-label').innerText = t.pay;
+      document.getElementById('footer-text').innerText = t.footer;
+      ['f1t', 'f2t', 'f3t', 'f4t'].forEach((id, i) => { document.getElementById(id).innerText = t.f[i].t; document.getElementById(id.replace('t', 'd')).innerText = t.f[i].d });
+      document.querySelectorAll('.cart-btn').forEach(b => b.innerText = t.buy);
+      updateCart(); renderProducts();
     }
 
+    // CANVAS
     function render() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(drawingLayer, 0, 0);
-      elements.forEach((el, index) => {
-        ctx.save();
-        if (dragIndex === index) {
-          ctx.shadowBlur = 15; ctx.shadowColor = '#1e88e5';
-        }
-        if (el.type === 'emoji') {
-          ctx.font = `${el.size}px Outfit`;
-          ctx.fillText(el.content, el.x, el.y);
-        } else {
-          ctx.drawImage(el.content, el.x, el.y, el.width, el.height);
-        }
-        ctx.restore();
-      });
+      ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(drawLayer, 0, 0);
+      elements.forEach((el, i) => {
+        ctx.save(); if (dragIndex === i) { ctx.shadowBlur = 15; ctx.shadowColor = '#6366f1' }
+        if (el.type === 'emoji') { ctx.font = `${el.size}px Outfit`; ctx.fillText(el.content, el.x, el.y) }
+        else { ctx.drawImage(el.content, el.x, el.y, el.width, el.height) } ctx.restore()
+      })
     }
 
     function addElement(type, content) {
-      if (type === 'emoji') {
-        elements.push({ type, content, x: 140, y: 270, size: 60 });
-      } else {
-        const img = new Image();
-        img.onload = () => {
-          elements.push({ type, content: img, x: 50, y: 150, width: 200, height: 200 });
-          render();
-        };
-        img.src = content;
-      }
-      render();
+      if (type === 'emoji') { elements.push({ type, content, x: 140, y: 250, size: 60 }) }
+      else { const img = new Image(); img.onload = () => { elements.push({ type, content: img, x: 50, y: 120, width: 200, height: 200 }); render() }; img.src = content }
+      render()
     }
 
-    function getPos(e) {
-      const rect = canvas.getBoundingClientRect();
-      const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-      const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-      return { x, y };
-    }
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: (e.clientX || (e.touches && e.touches[0].clientX)) - r.left, y: (e.clientY || (e.touches && e.touches[0].clientY)) - r.top } }
 
-    canvas.addEventListener('mousedown', (e) => {
-      const pos = getPos(e);
-      dragIndex = -1;
+    canvas.addEventListener('mousedown', e => {
+      const p = getPos(e); dragIndex = -1;
       for (let i = elements.length - 1; i >= 0; i--) {
         const el = elements[i];
-        const hit = el.type === 'emoji' ?
-          (pos.x > el.x && pos.x < el.x + 60 && pos.y < el.y && pos.y > el.y - 60) :
-          (pos.x > el.x && pos.x < el.x + el.width && pos.y > el.y && pos.y < el.y + el.height);
-        if (hit) { dragIndex = i; break; }
+        const hit = el.type === 'emoji' ? (p.x > el.x && p.x < el.x + 60 && p.y < el.y && p.y > el.y - 60) : (p.x > el.x && p.x < el.x + el.width && p.y > el.y && p.y < el.y + el.height);
+        if (hit) { dragIndex = i; break }
       }
-
-      if (dragIndex !== -1) {
-        isDragging = true;
-        offsetX = pos.x - elements[dragIndex].x;
-        offsetY = pos.y - elements[dragIndex].y;
-      } else {
-        isDrawing = true;
-        dctx.beginPath(); dctx.moveTo(pos.x, pos.y);
-      }
-      render();
+      if (dragIndex !== -1) { isDragging = true; offX = p.x - elements[dragIndex].x; offY = p.y - elements[dragIndex].y }
+      else { isDrawing = true; dctx.beginPath(); dctx.moveTo(p.x, p.y) } render()
     });
 
-    // Double click to delete
-    canvas.addEventListener('dblclick', (e) => {
-      const pos = getPos(e);
-      elements = elements.filter(el => {
-        const hit = el.type === 'emoji' ?
-          (pos.x > el.x && pos.x < el.x + 60 && pos.y < el.y && pos.y > el.y - 60) :
-          (pos.x > el.x && pos.x < el.x + el.width && pos.y > el.y && pos.y < el.y + el.height);
-        return !hit;
-      });
-      render();
+    canvas.addEventListener('dblclick', e => {
+      const p = getPos(e);
+      elements = elements.filter(el => { const hit = el.type === 'emoji' ? (p.x > el.x && p.x < el.x + 60 && p.y < el.y && p.y > el.y - 60) : (p.x > el.x && p.x < el.x + el.width && p.y > el.y && p.y < el.y + el.height); return !hit }); render()
     });
 
-    window.addEventListener('mousemove', (e) => {
-      const pos = getPos(e);
-      if (isDragging) {
-        elements[dragIndex].x = pos.x - offsetX;
-        elements[dragIndex].y = pos.y - offsetY;
-        render();
-      } else if (isDrawing) {
-        dctx.lineWidth = document.getElementById('brushSize').value;
-        dctx.lineCap = 'round'; dctx.strokeStyle = document.getElementById('colorPicker').value;
-        dctx.lineTo(pos.x, pos.y); dctx.stroke(); render();
-      }
+    window.addEventListener('mousemove', e => {
+      const p = getPos(e);
+      if (isDragging) { elements[dragIndex].x = p.x - offX; elements[dragIndex].y = p.y - offY; render() }
+      else if (isDrawing) { dctx.lineWidth = document.getElementById('brushSize').value; dctx.lineCap = 'round'; dctx.strokeStyle = document.getElementById('colorPicker').value; dctx.lineTo(p.x, p.y); dctx.stroke(); render() }
     });
 
-    window.addEventListener('mouseup', () => { isDragging = false; isDrawing = false; render(); });
+    window.addEventListener('mouseup', () => { isDragging = false; isDrawing = false; render() });
+    document.getElementById('brushSize').oninput = function () { document.getElementById('brush-val').innerText = this.value };
 
-    // Size Slider Visual
-    document.getElementById('brushSize').oninput = function () {
-      document.getElementById('brush-val').innerText = this.value;
-    };
-
-    function clearCanvas() {
-      elements = []; dctx.clearRect(0, 0, 340, 550);
-      document.getElementById('design-overlay').style.opacity = '0';
-      setTimeout(() => { document.getElementById('design-overlay').src = ""; }, 500);
-      render();
-    }
-
+    function clearCanvas() { elements = []; dctx.clearRect(0, 0, 340, 500); const o = document.getElementById('design-overlay'); o.style.opacity = '0'; setTimeout(() => o.src = '', 500); render() }
     function applyToCase() {
-      const bar = document.getElementById('loading-bar');
-      bar.style.width = '30%';
-      setTimeout(() => {
-        bar.style.width = '100%';
-        document.getElementById('design-overlay').src = canvas.toDataURL();
-        document.getElementById('design-overlay').style.opacity = '1';
-        setTimeout(() => bar.style.width = '0', 400);
-      }, 300);
+      const b = document.getElementById('loading-bar'); b.style.width = '30%'; const o = document.getElementById('design-overlay');
+      o.style.transform = 'scale(.95)'; o.style.opacity = '0';
+      setTimeout(() => { b.style.width = '100%'; o.src = canvas.toDataURL(); o.style.transform = 'scale(1)'; o.style.opacity = '1'; setTimeout(() => b.style.width = '0', 400) }, 500)
     }
 
-    document.getElementById('imageLoader').onchange = (e) => {
-      const reader = new FileReader();
-      reader.onload = (ev) => addElement('image', ev.target.result);
-      reader.readAsDataURL(e.target.files[0]);
-    };
+    document.getElementById('imageLoader').onchange = e => { const r = new FileReader(); r.onload = ev => addElement('image', ev.target.result); r.readAsDataURL(e.target.files[0]) };
 
-    // Responsive Canvas
-    render();
+    // SCROLL ANIMATIONS
+    function observeFadeUps() {
+      const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') }) }, { threshold: .15 });
+      document.querySelectorAll('.fade-up').forEach(el => obs.observe(el))
+    }
+
+    // INIT
+    renderProducts(); observeFadeUps(); render();
   </script>
 </body>
 
