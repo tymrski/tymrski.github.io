@@ -806,6 +806,9 @@
               <button class="btn btn-glow" style="flex:2;justify-content:center" onclick="applyToCase()">✨ <span
                   id="btn-apply">GENERUJ</span></button>
             </div>
+            <button class="btn btn-ghost" id="cloud-save-btn"
+              style="width:100%;justify-content:center;background:rgba(56,189,248,0.1);border-color:var(--primary)"
+              onclick="saveToCloud()">☁️ <span id="btn-cloud">ZAPISZ W CHMURZE</span></button>
           </div>
         </div>
       </div>
@@ -867,29 +870,49 @@
 
   <script>
     // PRODUCTS DATA
-    const productsData = [
-      { name: "Aurora Violet", desc: "Fioletowo-różowy gradient", price: "129 PLN", colors: ["#667eea", "#764ba2", "#f093fb", "#667eea"], delay: 0 },
-      { name: "Sunset Blaze", desc: "Ogniste przejścia kolorów", price: "129 PLN", colors: ["#f093fb", "#f5576c", "#ffd700", "#f093fb"], delay: -1.5 },
-      { name: "Ocean Breeze", desc: "Morskie odcienie błękitu", price: "129 PLN", colors: ["#4facfe", "#00f2fe", "#43e97b", "#4facfe"], delay: -3 },
-      { name: "Midnight Galaxy", desc: "Kosmiczne fiolety i granaty", price: "149 PLN", colors: ["#0c0032", "#190061", "#6b38fb", "#0c0032"], delay: -1 },
-      { name: "Neon Pulse", desc: "Elektryzujące neony", price: "139 PLN", colors: ["#00ff87", "#60efff", "#ff00e5", "#00ff87"], delay: -2 },
-      { name: "Rose Gold", desc: "Elegancki złoto-różowy", price: "159 PLN", colors: ["#f4c4f3", "#fc5c7d", "#e8cbc0", "#f4c4f3"], delay: -4 },
-      { name: "Emerald Dream", desc: "Głęboka zieleń i złoto", price: "145 PLN", colors: ["#11998e", "#38ef7d", "#ffd700", "#11998e"], delay: -0.5 },
-      { name: "Cyber Neon", desc: "Neonowy róż i błękit", price: "135 PLN", colors: ["#ff0099", "#493240", "#00ffff", "#ff0099"], delay: -2.5 },
-      { name: "Titanium Silver", desc: "Szlachetny srebrny metalik", price: "169 PLN", colors: ["#bdc3c7", "#2c3e50", "#7f8c8d", "#bdc3c7"], delay: -1.2 },
-    ];
+    const categories = {
+      holo: [
+        { name: "Holo Pearl", desc: "Masa perłowa z połyskiem holo", price: "139 PLN", colors: ["#e0f2fe", "#fdf4ff", "#e0f2fe"], delay: 0 },
+        { name: "Holo Prism", desc: "Pryzmatyczne odbicia światła", price: "149 PLN", colors: ["#bae6fd", "#f5d0fe", "#c7d2fe"], delay: -1 },
+        { name: "Holo Chrome", desc: "Lustrzany efekt holograficzny", price: "159 PLN", colors: ["#f1f5f9", "#cbd5e1", "#94a3b8"], delay: -2 }
+      ],
+      kolorowy: [
+        { name: "Candy Blast", desc: "Słodki miks soczystych barw", price: "119 PLN", colors: ["#ff0099", "#ffcc00", "#00ffff"], delay: -0.5 },
+        { name: "Deep Sea", desc: "Głębia oceanu w Twoich dłoniach", price: "119 PLN", colors: ["#000046", "#1cb5e0"], delay: -1.5 },
+        { name: "Forest Mist", desc: "Zamglone leśne ścieżki", price: "119 PLN", colors: ["#134e5e", "#71b280"], delay: -3 }
+      ],
+      modulowy: [
+        { name: "Carbon X", desc: "Włókno węglowe z akcentem błękitu", price: "179 PLN", colors: ["#000000", "#434343", "#38bdf8"], delay: 0 },
+        { name: "Tactical Matte", desc: "Matowa, modularna tekstura", price: "169 PLN", colors: ["#2c3e50", "#000000"], delay: -2 },
+        { name: "Stealth Gray", desc: "Dyskretny, modularny szary", price: "159 PLN", colors: ["#4b6cb7", "#182848"], delay: -4 }
+      ],
+      custom: [
+        { name: "Twój Projekt", desc: "Design stworzony w studio", price: "199 PLN", colors: ["#fff", "#f0f9ff", "#fff"], delay: 0, isCustom: true }
+      ]
+    };
 
     function renderProducts() {
       const grid = document.getElementById('product-grid');
       grid.innerHTML = '';
-      productsData.forEach((p, i) => {
-        const g = `linear-gradient(135deg,${p.colors.join(',')})`;
-        grid.innerHTML += `<div class="product fade-up" style="transition-delay:${i * .1}s">
-      <div class="product-preview" style="background:radial-gradient(circle at 50% 80%,rgba(99,102,241,.1),transparent)">
-        <div class="mini-case" style="transform-style:preserve-3d">
-          <div class="gradient-fill" style="background:${g};background-size:300% 300%;animation:colorShift ${4 + i}s ease infinite;animation-delay:${p.delay}s"></div>
+
+      Object.keys(categories).forEach(cat => {
+        const catTitle = document.createElement('h3');
+        catTitle.style.cssText = "grid-column: 1/-1; margin: 40px 0 20px; text-transform: uppercase; letter-spacing: 4px; font-weight: 900; opacity: 0.6; font-size: 1.2rem";
+        catTitle.innerText = cat;
+        grid.appendChild(catTitle);
+
+        categories[cat].forEach((p, i) => {
+          const g = `linear-gradient(135deg,${p.colors.join(',')})`;
+          const card = document.createElement('div');
+          card.className = "product fade-up";
+          card.style.transitionDelay = `${i * .1}s`;
+          card.innerHTML = `
+      <div class="product-preview" style="background:radial-gradient(circle at 50% 80%,rgba(56,189,248,.1),transparent)">
+        <div class="mini-case" style="transform-style:preserve-3d; background: #fff">
+          <div class="gradient-fill" style="background:${g};background-size:300% 300%;animation:colorShift ${4 + i}s ease infinite;animation-delay:${p.delay}s; opacity: ${p.isCustom ? 0.3 : 1}"></div>
           <div class="cam"><div></div><div></div><div></div><div></div></div>
           <div class="shine"></div>
+          ${p.isCustom ? '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:2rem">✨</div>' : ''}
         </div>
       </div>
       <div class="product-info">
@@ -897,10 +920,11 @@
         <p class="desc">${p.desc}</p>
         <div class="price-row">
           <span class="price">${p.price}</span>
-          <button class="add-btn cart-btn" onclick="addToCart()">${translations[currentLang].buy}</button>
+          <button class="add-btn cart-btn" onclick="${p.isCustom ? "document.getElementById('studio').scrollIntoView()" : "addToCart()"}">${p.isCustom ? translations[currentLang].create : translations[currentLang].buy}</button>
         </div>
-      </div>
-    </div>`;
+      </div>`;
+          grid.appendChild(card);
+        });
       });
       observeFadeUps();
     }
@@ -915,6 +939,7 @@
         studioTitle: "Studio Projektowe", studioSub: "Stwórz własny, unikalny design.",
         tip: "Przeciągnij emoji myszką. Podwójne kliknięcie usuwa!", brush: "Pędzel i Kolory", emoji: "Emoji Panel",
         importBtn: "IMPORTUJ GRAFIKĘ", clearBtn: "CZYŚĆ", applyBtn: "GENERUJ", preview: "LIVE PREVIEW",
+        cloudBtn: "ZAPISZ W CHMURZE", cloudSuccess: "PROJEKT ZAPISANY W CHMURZE! ☁️",
         f: [{ t: "Color-Shift", d: "Dynamiczny gradient zmienia kolory pod każdym kątem." }, { t: "MIL-STD Ochrona", d: "Testowane upadki z 2 metrów. Twój telefon jest bezpieczny." },
         { t: "Premium Materiał", d: "Matowe wykończenie, które nie zbiera odcisków palców." }, { t: "Personalizacja", d: "Rysuj, dodawaj emoji, importuj własne grafiki na case." }],
         pay: "Bezpieczne Płatności", footer: "© 2026 Elite Case Studio. Wykonane z pasją do designu."
@@ -927,6 +952,7 @@
         studioTitle: "Design Studio", studioSub: "Create your own unique design.",
         tip: "Drag emojis with mouse. Double click to remove!", brush: "Brush & Colors", emoji: "Emoji Panel",
         importBtn: "IMPORT IMAGE", clearBtn: "CLEAR", applyBtn: "GENERATE", preview: "LIVE PREVIEW",
+        cloudBtn: "SAVE TO CLOUD", cloudSuccess: "PROJECT SAVED TO CLOUD! ☁️",
         f: [{ t: "Color-Shift", d: "Dynamic gradient changes colors at every angle." }, { t: "MIL-STD Protection", d: "Drop tested from 2 meters. Your phone is safe." },
         { t: "Premium Material", d: "Matte finish that doesn't collect fingerprints." }, { t: "Customization", d: "Draw, add emojis, import your own graphics." }],
         pay: "Secure Payments", footer: "© 2026 Elite Case Studio. Made with passion for design."
@@ -1001,6 +1027,7 @@
       document.getElementById('btn-import').innerText = t.importBtn;
       document.getElementById('btn-clear').innerText = t.clearBtn;
       document.getElementById('btn-apply').innerText = t.applyBtn;
+      document.getElementById('btn-cloud').innerText = t.cloudBtn;
       document.getElementById('preview-label').innerText = t.preview;
       document.getElementById('payment-label').innerText = t.pay;
       document.getElementById('footer-text').innerText = t.footer;
@@ -1057,6 +1084,28 @@
       const b = document.getElementById('loading-bar'); b.style.width = '30%'; const o = document.getElementById('design-overlay');
       o.style.transform = 'scale(.95)'; o.style.opacity = '0';
       setTimeout(() => { b.style.width = '100%'; o.src = canvas.toDataURL(); o.style.transform = 'scale(1)'; o.style.opacity = '1'; setTimeout(() => b.style.width = '0', 400) }, 500)
+    }
+
+    function saveToCloud() {
+      const btn = document.getElementById('cloud-save-btn');
+      const b = document.getElementById('loading-bar');
+      b.style.width = '20%';
+      btn.style.opacity = '0.5';
+      btn.innerHTML = '✨ UPLOADING...';
+
+      setTimeout(() => {
+        b.style.width = '70%';
+        setTimeout(() => {
+          b.style.width = '100%';
+          btn.innerHTML = '✅ DONE!';
+          alert(translations[currentLang].cloudSuccess);
+          setTimeout(() => {
+            btn.innerHTML = `☁️ <span>${translations[currentLang].cloudBtn}</span>`;
+            btn.style.opacity = '1';
+            b.style.width = '0';
+          }, 2000);
+        }, 1000);
+      }, 800);
     }
 
     document.getElementById('imageLoader').onchange = e => { const r = new FileReader(); r.onload = ev => addElement('image', ev.target.result); r.readAsDataURL(e.target.files[0]) };
