@@ -706,6 +706,66 @@
       filter: grayscale(1)
     }
 
+    /* GALLERY */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .gallery-item {
+      background: var(--surface);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 16px;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(56, 189, 248, 0.15);
+      border-color: var(--primary);
+    }
+
+    .gallery-img-wrap {
+      background: #fff;
+      border-radius: 16px;
+      aspect-ratio: 280/540;
+      width: 100%;
+      margin-bottom: 16px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .gallery-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .gallery-btn {
+      flex: 1;
+      padding: 10px;
+      font-size: 0.85rem;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
     /* LOADING BAR */
     #loading-bar {
       position: fixed;
@@ -855,6 +915,15 @@
     </div>
   </section>
 
+  <!-- GALLERY -->
+  <section id="gallery" class="fade-up">
+    <h2 class="section-title" id="gallery-title">Galeria Społeczności</h2>
+    <p class="section-sub" id="gallery-sub">Inspiruj się projektami innych użytkowników.</p>
+    <div class="gallery-grid" id="gallery-grid">
+      <!-- Gallery items will be injected here -->
+    </div>
+  </section>
+
   <!-- PRODUCTS -->
   <section id="products" class="fade-up">
     <h2 class="section-title" id="prod-title">Kolekcja Color-Shift</h2>
@@ -942,7 +1011,8 @@
         cloudBtn: "ZAPISZ W CHMURZE", cloudSuccess: "PROJEKT ZAPISANY W CHMURZE! ☁️",
         f: [{ t: "Color-Shift", d: "Dynamiczny gradient zmienia kolory pod każdym kątem." }, { t: "MIL-STD Ochrona", d: "Testowane upadki z 2 metrów. Twój telefon jest bezpieczny." },
         { t: "Premium Materiał", d: "Matowe wykończenie, które nie zbiera odcisków palców." }, { t: "Personalizacja", d: "Rysuj, dodawaj emoji, importuj własne grafiki na case." }],
-        pay: "Bezpieczne Płatności", footer: "© 2026 Elite Case Studio. Wykonane z pasją do designu."
+        pay: "Bezpieczne Płatności", footer: "© 2026 Elite Case Studio. Wykonane z pasją do designu.",
+        galleryTitle: "Galeria Społeczności", gallerySub: "Inspiruj się projektami innych użytkowników.", editBtn: "EDYTUJ W STUDIO"
       },
       en: {
         cart: "🛒 {count}", title: "Cases That Change<br>Colors", subtitle: "Living gradients that react to light. Designed for those who stand out.",
@@ -955,7 +1025,8 @@
         cloudBtn: "SAVE TO CLOUD", cloudSuccess: "PROJECT SAVED TO CLOUD! ☁️",
         f: [{ t: "Color-Shift", d: "Dynamic gradient changes colors at every angle." }, { t: "MIL-STD Protection", d: "Drop tested from 2 meters. Your phone is safe." },
         { t: "Premium Material", d: "Matte finish that doesn't collect fingerprints." }, { t: "Customization", d: "Draw, add emojis, import your own graphics." }],
-        pay: "Secure Payments", footer: "© 2026 Elite Case Studio. Made with passion for design."
+        pay: "Secure Payments", footer: "© 2026 Elite Case Studio. Made with passion for design.",
+        galleryTitle: "Community Gallery", gallerySub: "Get inspired by other users' designs.", editBtn: "EDIT IN STUDIO"
       },
       es: {
         cart: "🛒 {count}", title: "Fundas Que Cambian<br>De Color", subtitle: "Gradientes vivos que reaccionan a la luz.",
@@ -991,7 +1062,8 @@
         importBtn: "导入图片", clearBtn: "清除", applyBtn: "生成", preview: "实时预览",
         f: [{ t: "变色效果", d: "动态渐变色彩。" }, { t: "军标防护", d: "2米跌落测试。" },
         { t: "高端材质", d: "哑光不留指纹。" }, { t: "个性定制", d: "绘画、表情、导入图片。" }],
-        pay: "安全支付", footer: "© 2026 Elite Case Studio."
+        pay: "安全支付", footer: "© 2026 Elite Case Studio.",
+        galleryTitle: "社区画廊", gallerySub: "激发他人的创作灵感。", editBtn: "在工作室编辑"
       }
     };
 
@@ -1031,6 +1103,8 @@
       document.getElementById('preview-label').innerText = t.preview;
       document.getElementById('payment-label').innerText = t.pay;
       document.getElementById('footer-text').innerText = t.footer;
+      document.getElementById('gallery-title').innerText = t.galleryTitle;
+      document.getElementById('gallery-sub').innerText = t.gallerySub;
       ['f1t', 'f2t', 'f3t', 'f4t'].forEach((id, i) => { document.getElementById(id).innerText = t.f[i].t; document.getElementById(id.replace('t', 'd')).innerText = t.f[i].d });
       document.querySelectorAll('.cart-btn').forEach(b => b.innerText = t.buy);
       updateCart(); renderProducts();
@@ -1089,15 +1163,27 @@
     function saveToCloud() {
       const btn = document.getElementById('cloud-save-btn');
       const b = document.getElementById('loading-bar');
+      const designData = canvas.toDataURL();
+
       b.style.width = '20%';
       btn.style.opacity = '0.5';
       btn.innerHTML = '✨ UPLOADING...';
 
       setTimeout(() => {
         b.style.width = '70%';
+        // Save to LocalStorage
+        const savedDesigns = JSON.parse(localStorage.getItem('premium_designs') || '[]');
+        savedDesigns.unshift({
+          id: Date.now(),
+          data: designData,
+          date: new Date().toLocaleDateString()
+        });
+        localStorage.setItem('premium_designs', JSON.stringify(savedDesigns.slice(0, 12))); // Keep last 12
+
         setTimeout(() => {
           b.style.width = '100%';
           btn.innerHTML = '✅ DONE!';
+          renderGallery();
           alert(translations[currentLang].cloudSuccess);
           setTimeout(() => {
             btn.innerHTML = `☁️ <span>${translations[currentLang].cloudBtn}</span>`;
@@ -1106,6 +1192,64 @@
           }, 2000);
         }, 1000);
       }, 800);
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('gallery-grid');
+      const savedDesigns = JSON.parse(localStorage.getItem('premium_designs') || '[]');
+      grid.innerHTML = '';
+
+      if (savedDesigns.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; opacity: 0.5">Brak zapisanych projektów. Bądź pierwszy!</p>';
+        return;
+      }
+
+      savedDesigns.forEach(design => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item fade-up';
+        item.innerHTML = `
+          <div class="gallery-img-wrap">
+            <img src="${design.data}" alt="Design">
+          </div>
+          <div class="gallery-actions">
+            <button class="btn btn-glow gallery-btn" onclick="loadFromGallery('${design.id}')">🎨 ${translations[currentLang].editBtn}</button>
+          </div>
+        `;
+        grid.appendChild(item);
+      });
+      observeFadeUps();
+    }
+
+    function loadFromGallery(id) {
+      const savedDesigns = JSON.parse(localStorage.getItem('premium_designs') || '[]');
+      const design = savedDesigns.find(d => d.id == id);
+      if (!design) return;
+
+      const b = document.getElementById('loading-bar');
+      b.style.width = '50%';
+
+      // Load into editor
+      const img = new Image();
+      img.onload = () => {
+        clearCanvas();
+        // Since the canvas handles "elements" and "drawLayer" separately, 
+        // leading a flat image means we put it on the drawLayer or as an element.
+        // For simplicity, we'll load it as an "image" element that fills the canvas.
+        elements.push({
+          type: 'image',
+          content: img,
+          x: 0,
+          y: 0,
+          width: 280,
+          height: 540
+        });
+        render();
+        applyToCase();
+        document.getElementById('studio').scrollIntoView({ behavior: 'smooth' });
+        b.style.width = '100%';
+        setTimeout(() => b.style.width = '0', 500);
+      };
+      img.src = design.data;
     }
 
     document.getElementById('imageLoader').onchange = e => { const r = new FileReader(); r.onload = ev => addElement('image', ev.target.result); r.readAsDataURL(e.target.files[0]) };
@@ -1117,7 +1261,7 @@
     }
 
     // INIT
-    renderProducts(); observeFadeUps(); render();
+    renderProducts(); renderGallery(); observeFadeUps(); render();
   </script>
 </body>
 
