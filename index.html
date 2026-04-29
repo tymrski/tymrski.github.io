@@ -21,6 +21,9 @@
       --gradient: linear-gradient(135deg, #38bdf8, #60a5fa);
       --accent: #0284c7;
       --primary: #38bdf8;
+      --aurora-1: #bae6fd;
+      --aurora-2: #7dd3fc;
+      --aurora-3: #e0f2fe;
     }
 
     html {
@@ -53,7 +56,7 @@
     .aurora-bg span:nth-child(1) {
       width: 600px;
       height: 600px;
-      background: #bae6fd;
+      background: var(--aurora-1);
       top: -10%;
       left: 20%;
       animation-delay: 0s
@@ -62,7 +65,7 @@
     .aurora-bg span:nth-child(2) {
       width: 500px;
       height: 500px;
-      background: #7dd3fc;
+      background: var(--aurora-2);
       bottom: 10%;
       right: 10%;
       animation-delay: -5s
@@ -71,7 +74,7 @@
     .aurora-bg span:nth-child(3) {
       width: 400px;
       height: 400px;
-      background: #e0f2fe;
+      background: var(--aurora-3);
       top: 40%;
       left: 60%;
       animation-delay: -10s
@@ -804,6 +807,12 @@
     <div class="logo">ELITE CASE STUDIO</div>
     <div style="display:flex;gap:16px;align-items:center">
       <span class="cart-badge" id="cart-text">🛒 0</span>
+      <select id="theme-select" onchange="changeTheme(this.value)" style="background: var(--gradient); color: white; border: none; font-weight: bold;">
+        <option value="ocean">🌊 Ocean</option>
+        <option value="sunset">🌅 Sunset</option>
+        <option value="midnight">🌃 Midnight</option>
+        <option value="forest">🌲 Forest</option>
+      </select>
       <select id="lang-select" onchange="changeLanguage(this.value)">
         <option value="pl">Polski</option>
         <option value="en">English</option>
@@ -850,6 +859,7 @@
               <input type="range" id="brushSize" min="1" max="80" value="8" style="flex-grow:1">
               <span id="brush-val" style="width:28px;font-weight:700">8</span>
             </div>
+            <div id="swatches" style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap"></div>
           </div>
           <div class="tool-group">
             <span class="tool-label" id="lbl-emoji">Emoji Panel</span>
@@ -1109,6 +1119,64 @@
       document.querySelectorAll('.cart-btn').forEach(b => b.innerText = t.buy);
       updateCart(); renderProducts();
     }
+
+    const themes = {
+      ocean: {
+        bg: '#f0f9ff', text: '#0f172a', textLight: '#475569',
+        gradient: 'linear-gradient(135deg, #38bdf8, #60a5fa)',
+        primary: '#38bdf8', accent: '#0284c7',
+        aurora1: '#bae6fd', aurora2: '#7dd3fc', aurora3: '#e0f2fe'
+      },
+      sunset: {
+        bg: '#fff7ed', text: '#431407', textLight: '#9a3412',
+        gradient: 'linear-gradient(135deg, #f97316, #f43f5e)',
+        primary: '#fb923c', accent: '#ea580c',
+        aurora1: '#ffedd5', aurora2: '#fed7aa', aurora3: '#fff7ed'
+      },
+      midnight: {
+        bg: '#020617', text: '#f8fafc', textLight: '#94a3b8',
+        gradient: 'linear-gradient(135deg, #6366f1, #a855f7)',
+        primary: '#818cf8', accent: '#4f46e5',
+        aurora1: '#1e1b4b', aurora2: '#312e81', aurora3: '#1e293b'
+      },
+      forest: {
+        bg: '#f0fdf4', text: '#052e16', textLight: '#166534',
+        gradient: 'linear-gradient(135deg, #22c55e, #10b981)',
+        primary: '#4ade80', accent: '#16a34a',
+        aurora1: '#dcfce7', aurora2: '#bbf7d0', aurora3: '#f0fdf4'
+      }
+    };
+
+    function changeTheme(themeName) {
+      const t = themes[themeName];
+      const root = document.documentElement;
+      root.style.setProperty('--bg', t.bg);
+      root.style.setProperty('--text', t.text);
+      root.style.setProperty('--text-light', t.textLight);
+      root.style.setProperty('--gradient', t.gradient);
+      root.style.setProperty('--primary', t.primary);
+      root.style.setProperty('--accent', t.accent);
+      root.style.setProperty('--aurora-1', t.aurora1);
+      root.style.setProperty('--aurora-2', t.aurora2);
+      root.style.setProperty('--aurora-3', t.aurora3);
+      
+      // Update select styling to match theme
+      const select = document.getElementById('theme-select');
+      select.style.background = t.gradient;
+      
+      // Update brush color
+      document.getElementById('colorPicker').value = t.primary;
+    }
+
+    // SWATCHES
+    const swatchColors = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7', '#ec4899', '#f97316', '#0f172a', '#ffffff'];
+    const swatchesContainer = document.getElementById('swatches');
+    swatchColors.forEach(c => {
+      const s = document.createElement('div');
+      s.style.cssText = `width:24px; height:24px; border-radius:6px; background:${c}; cursor:pointer; border:1px solid rgba(0,0,0,0.1); transition:transform 0.2s`;
+      s.onclick = () => { document.getElementById('colorPicker').value = c; s.style.transform = 'scale(1.2)'; setTimeout(()=>s.style.transform='scale(1)', 200); };
+      swatchesContainer.appendChild(s);
+    });
 
     // CANVAS
     function render() {
