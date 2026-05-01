@@ -769,7 +769,65 @@
       font-weight: 700;
     }
 
-    /* LOADING BAR */
+    /* TABS */
+    .tab-nav {
+      display: flex;
+      background: rgba(0, 0, 0, 0.05);
+      padding: 6px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      gap: 4px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--text-light);
+      transition: all 0.3s;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+
+    .tab-btn.active {
+      background: #fff;
+      color: var(--text);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .tool-tab-content {
+      display: none;
+    }
+
+    .tool-tab-content.active {
+      display: block;
+    }
+
+    .ai-input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.6);
+      font-family: inherit;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+      transition: border-color 0.3s;
+    }
+
+    .ai-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
     #loading-bar {
       position: fixed;
       top: 0;
@@ -851,19 +909,46 @@
         </div>
         <canvas id="paintCanvas" width="280" height="540"></canvas>
         <div class="tools">
-          <div class="tool-group">
-            <span class="tool-label" id="lbl-brush">Pędzel i Kolory</span>
-            <div class="controls-row">
-              <input type="color" id="colorPicker" value="#38bdf8"
-                style="width:46px;height:46px;border:none;background:none;cursor:pointer">
-              <input type="range" id="brushSize" min="1" max="80" value="8" style="flex-grow:1">
-              <span id="brush-val" style="width:28px;font-weight:700">8</span>
-            </div>
-            <div id="swatches" style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap"></div>
+          <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('ai')">🤖 <span class="tab-text">AI</span></button>
+            <button class="tab-btn" onclick="switchTab('emoji')">😀 <span class="tab-text">Emoji</span></button>
+            <button class="tab-btn" onclick="switchTab('brush')">✏️ <span class="tab-text">Rysuj</span></button>
           </div>
-          <div class="tool-group">
-            <span class="tool-label" id="lbl-emoji">Emoji Panel</span>
-            <div class="emoji-grid" id="emoji-grid"></div>
+
+          <!-- OPTION 1: AI GENERATOR -->
+          <div id="tab-ai" class="tool-tab-content active">
+            <div class="tool-group">
+              <span class="tool-label" id="lbl-ai">Generator Obrazów AI</span>
+              <input type="text" id="ai-prompt" class="ai-input" placeholder="Np. Cyberpunkowy kot w kosmosie...">
+              <button class="btn btn-glow" style="width:100%; justify-content:center" onclick="generateAIImage()">
+                🚀 <span id="btn-generate-ai">GENERUJ OBRAZ</span>
+              </button>
+              <p style="font-size: 0.7rem; color: var(--text-light); margin-top: 8px; text-align: center; opacity: 0.7">
+                Powered by Pollinations.ai
+              </p>
+            </div>
+          </div>
+
+          <!-- OPTION 2: EMOJI -->
+          <div id="tab-emoji" class="tool-tab-content">
+            <div class="tool-group">
+              <span class="tool-label" id="lbl-emoji">Panel Emoji</span>
+              <div class="emoji-grid" id="emoji-grid"></div>
+            </div>
+          </div>
+
+          <!-- OPTION 3: BRUSH -->
+          <div id="tab-brush" class="tool-tab-content">
+            <div class="tool-group">
+              <span class="tool-label" id="lbl-brush">Pędzel i Kolory</span>
+              <div class="controls-row">
+                <input type="color" id="colorPicker" value="#38bdf8"
+                  style="width:46px;height:46px;border:none;background:none;cursor:pointer">
+                <input type="range" id="brushSize" min="1" max="80" value="8" style="flex-grow:1">
+                <span id="brush-val" style="width:28px;font-weight:700">8</span>
+              </div>
+              <div id="swatches" style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap"></div>
+            </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px">
             <button class="btn btn-ghost" style="width:100%;justify-content:center"
@@ -1016,9 +1101,11 @@
         featTitle: "Dlaczego Nasze Case?", featSub: "Technologia zmieniających się kolorów zamknięta w premium obudowie.",
         prodTitle: "Kolekcja Color-Shift", prodSub: "Każdy case zmienia kolory w zależności od kąta patrzenia.",
         studioTitle: "Studio Projektowe", studioSub: "Stwórz własny, unikalny design.",
-        tip: "Przeciągnij emoji myszką. Podwójne kliknięcie usuwa!", brush: "Pędzel i Kolory", emoji: "Emoji Panel",
+        tip: "Przeciągnij emoji myszką. Podwójne kliknięcie usuwa!", brush: "Pędzel i Kolory", emoji: "Panel Emoji",
         importBtn: "IMPORTUJ GRAFIKĘ", clearBtn: "CZYŚĆ", applyBtn: "GENERUJ", preview: "LIVE PREVIEW",
         cloudBtn: "ZAPISZ W CHMURZE", cloudSuccess: "PROJEKT ZAPISANY W CHMURZE! ☁️",
+        aiTitle: "Generator Obrazów AI", aiPrompt: "Np. Cyberpunkowy kot w kosmosie...", aiBtn: "GENERUJ OBRAZ",
+        tabAi: "AI", tabEmoji: "Emoji", tabBrush: "Rysuj",
         f: [{ t: "Color-Shift", d: "Dynamiczny gradient zmienia kolory pod każdym kątem." }, { t: "MIL-STD Ochrona", d: "Testowane upadki z 2 metrów. Twój telefon jest bezpieczny." },
         { t: "Premium Materiał", d: "Matowe wykończenie, które nie zbiera odcisków palców." }, { t: "Personalizacja", d: "Rysuj, dodawaj emoji, importuj własne grafiki na case." }],
         pay: "Bezpieczne Płatności", footer: "© 2026 Elite Case Studio. Wykonane z pasją do designu.",
@@ -1033,6 +1120,8 @@
         tip: "Drag emojis with mouse. Double click to remove!", brush: "Brush & Colors", emoji: "Emoji Panel",
         importBtn: "IMPORT IMAGE", clearBtn: "CLEAR", applyBtn: "GENERATE", preview: "LIVE PREVIEW",
         cloudBtn: "SAVE TO CLOUD", cloudSuccess: "PROJECT SAVED TO CLOUD! ☁️",
+        aiTitle: "AI Image Generator", aiPrompt: "E.g. Cyberpunk cat in space...", aiBtn: "GENERATE IMAGE",
+        tabAi: "AI", tabEmoji: "Emoji", tabBrush: "Draw",
         f: [{ t: "Color-Shift", d: "Dynamic gradient changes colors at every angle." }, { t: "MIL-STD Protection", d: "Drop tested from 2 meters. Your phone is safe." },
         { t: "Premium Material", d: "Matte finish that doesn't collect fingerprints." }, { t: "Customization", d: "Draw, add emojis, import your own graphics." }],
         pay: "Secure Payments", footer: "© 2026 Elite Case Studio. Made with passion for design.",
@@ -1106,6 +1195,12 @@
       document.getElementById('drag-tip').innerText = t.tip;
       document.getElementById('lbl-brush').innerText = t.brush;
       document.getElementById('lbl-emoji').innerText = t.emoji;
+      document.getElementById('lbl-ai').innerText = t.aiTitle;
+      document.getElementById('ai-prompt').placeholder = t.aiPrompt;
+      document.getElementById('btn-generate-ai').innerText = t.aiBtn;
+      document.querySelectorAll('.tab-btn .tab-text')[0].innerText = t.tabAi;
+      document.querySelectorAll('.tab-btn .tab-text')[1].innerText = t.tabEmoji;
+      document.querySelectorAll('.tab-btn .tab-text')[2].innerText = t.tabBrush;
       document.getElementById('btn-import').innerText = t.importBtn;
       document.getElementById('btn-clear').innerText = t.clearBtn;
       document.getElementById('btn-apply').innerText = t.applyBtn;
@@ -1318,6 +1413,47 @@
         setTimeout(() => b.style.width = '0', 500);
       };
       img.src = design.data;
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tool-tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+      const btn = document.querySelector(`button[onclick="switchTab('${tabId}')"]`);
+      if (btn) btn.classList.add('active');
+    }
+
+    function generateAIImage() {
+      const prompt = document.getElementById('ai-prompt').value;
+      if (!prompt) return;
+      
+      const b = document.getElementById('loading-bar');
+      b.style.width = '30%';
+      
+      const seed = Math.floor(Math.random() * 100000);
+      const url = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?width=280&height=540&seed=${seed}&nologo=true`;
+      
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        b.style.width = '100%';
+        elements.push({
+          type: 'image',
+          content: img,
+          x: 0,
+          y: 0,
+          width: 280,
+          height: 540
+        });
+        render();
+        applyToCase();
+        setTimeout(() => b.style.width = '0', 500);
+      };
+      img.onerror = () => {
+        alert("Błąd podczas generowania obrazu. Spróbuj ponownie.");
+        b.style.width = '0';
+      };
+      img.src = url;
     }
 
     document.getElementById('imageLoader').onchange = e => { const r = new FileReader(); r.onload = ev => addElement('image', ev.target.result); r.readAsDataURL(e.target.files[0]) };
