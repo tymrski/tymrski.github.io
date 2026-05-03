@@ -608,7 +608,10 @@
       position: relative;
       padding: 10px;
       box-shadow: 0 40px 80px rgba(0, 0, 0, .3);
-      border: 5px solid #334155
+      border: 5px solid #334155;
+      transition: transform 0.1s ease-out;
+      transform-style: preserve-3d;
+      will-change: transform;
     }
 
     .phone-case {
@@ -811,6 +814,16 @@
       display: block;
     }
 
+    .font-select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background: #fff;
+      font-family: inherit;
+      margin-bottom: 12px;
+    }
+
     .ai-input {
       width: 100%;
       padding: 14px;
@@ -911,6 +924,7 @@
         <div class="tools">
           <div class="tab-nav">
             <button class="tab-btn active" onclick="switchTab('ai')">🤖 <span class="tab-text">AI</span></button>
+            <button class="tab-btn" onclick="switchTab('text')">🔤 <span class="tab-text">Tekst</span></button>
             <button class="tab-btn" onclick="switchTab('emoji')">😀 <span class="tab-text">Emoji</span></button>
             <button class="tab-btn" onclick="switchTab('brush')">✏️ <span class="tab-text">Rysuj</span></button>
           </div>
@@ -929,7 +943,24 @@
             </div>
           </div>
 
-          <!-- OPTION 2: EMOJI -->
+          <!-- OPTION 2: TEXT -->
+          <div id="tab-text" class="tool-tab-content">
+            <div class="tool-group">
+              <span class="tool-label" id="lbl-text">Napis Własny</span>
+              <input type="text" id="custom-text-input" class="ai-input" placeholder="Wpisz tekst...">
+              <select id="font-family" class="font-select">
+                <option value="Outfit">Outfit (Default)</option>
+                <option value="Serif">Classic Serif</option>
+                <option value="Cursive">Cursive Style</option>
+                <option value="Monospace">Tech Mono</option>
+              </select>
+              <button class="btn btn-glow" style="width:100%; justify-content:center" onclick="addTextElement()">
+                ➕ <span id="btn-add-text">DODAJ TEKST</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- OPTION 3: EMOJI -->
           <div id="tab-emoji" class="tool-tab-content">
             <div class="tool-group">
               <span class="tool-label" id="lbl-emoji">Panel Emoji</span>
@@ -1105,7 +1136,8 @@
         importBtn: "IMPORTUJ GRAFIKĘ", clearBtn: "CZYŚĆ", applyBtn: "GENERUJ", preview: "LIVE PREVIEW",
         cloudBtn: "ZAPISZ W CHMURZE", cloudSuccess: "PROJEKT ZAPISANY W CHMURZE! ☁️",
         aiTitle: "Generator Obrazów AI", aiPrompt: "Np. Cyberpunkowy kot w kosmosie...", aiBtn: "GENERUJ OBRAZ",
-        tabAi: "AI", tabEmoji: "Emoji", tabBrush: "Rysuj",
+        tabAi: "AI", tabText: "Tekst", tabEmoji: "Emoji", tabBrush: "Rysuj",
+        textLabel: "Napis Własny", textPlaceholder: "Wpisz tekst...", textBtn: "DODAJ TEKST",
         f: [{ t: "Color-Shift", d: "Dynamiczny gradient zmienia kolory pod każdym kątem." }, { t: "MIL-STD Ochrona", d: "Testowane upadki z 2 metrów. Twój telefon jest bezpieczny." },
         { t: "Premium Materiał", d: "Matowe wykończenie, które nie zbiera odcisków palców." }, { t: "Personalizacja", d: "Rysuj, dodawaj emoji, importuj własne grafiki na case." }],
         pay: "Bezpieczne Płatności", footer: "© 2026 Elite Case Studio. Wykonane z pasją do designu.",
@@ -1121,7 +1153,8 @@
         importBtn: "IMPORT IMAGE", clearBtn: "CLEAR", applyBtn: "GENERATE", preview: "LIVE PREVIEW",
         cloudBtn: "SAVE TO CLOUD", cloudSuccess: "PROJECT SAVED TO CLOUD! ☁️",
         aiTitle: "AI Image Generator", aiPrompt: "E.g. Cyberpunk cat in space...", aiBtn: "GENERATE IMAGE",
-        tabAi: "AI", tabEmoji: "Emoji", tabBrush: "Draw",
+        tabAi: "AI", tabText: "Text", tabEmoji: "Emoji", tabBrush: "Draw",
+        textLabel: "Custom Text", textPlaceholder: "Enter text...", textBtn: "ADD TEXT",
         f: [{ t: "Color-Shift", d: "Dynamic gradient changes colors at every angle." }, { t: "MIL-STD Protection", d: "Drop tested from 2 meters. Your phone is safe." },
         { t: "Premium Material", d: "Matte finish that doesn't collect fingerprints." }, { t: "Customization", d: "Draw, add emojis, import your own graphics." }],
         pay: "Secure Payments", footer: "© 2026 Elite Case Studio. Made with passion for design.",
@@ -1132,9 +1165,9 @@
         buy: "AL CARRITO", shop: "VER COLECCIÓN", create: "CREA EL TUYO",
         featTitle: "¿Por Qué Nuestras Fundas?", featSub: "Tecnología de cambio de color en una carcasa premium.",
         prodTitle: "Colección Color-Shift", prodSub: "Cada funda cambia de color según el ángulo.",
-        studioTitle: "Estudio de Diseño", studioSub: "Crea tu diseño único.",
-        tip: "Arrastra emojis. ¡Doble clic para borrar!", brush: "Pincel y Colores", emoji: "Panel Emoji",
-        importBtn: "IMPORTAR IMAGEN", clearBtn: "BORRAR", applyBtn: "GENERAR", preview: "VISTA PREVIA",
+        aiTitle: "Generador de Imágenes IA", aiPrompt: "Ej. Gato cyberpunk en el espacio...", aiBtn: "GENERAR IMAGEN",
+        tabAi: "IA", tabText: "Texto", tabEmoji: "Emoji", tabBrush: "Dibujar",
+        textLabel: "Texto Personalizado", textPlaceholder: "Escribe texto...", textBtn: "AÑADIR TEXTO",
         f: [{ t: "Color-Shift", d: "Gradiente dinámico." }, { t: "Protección MIL-STD", d: "Probado con caídas de 2m." },
         { t: "Material Premium", d: "Acabado mate sin huellas." }, { t: "Personalización", d: "Dibuja, emojis, importa gráficos." }],
         pay: "Pagos Seguros", footer: "© 2026 Elite Case Studio."
@@ -1144,9 +1177,9 @@
         buy: "IN DEN WARENKORB", shop: "KOLLEKTION", create: "GESTALTE DEINE",
         featTitle: "Warum Unsere Hüllen?", featSub: "Farbwechsel-Technologie in Premium-Qualität.",
         prodTitle: "Color-Shift Kollektion", prodSub: "Jede Hülle wechselt die Farben je nach Blickwinkel.",
-        studioTitle: "Design Studio", studioSub: "Erstelle dein eigenes Design.",
-        tip: "Emojis ziehen. Doppelklick zum Löschen!", brush: "Pinsel & Farben", emoji: "Emoji Panel",
-        importBtn: "BILD IMPORTIEREN", clearBtn: "LEEREN", applyBtn: "GENERIEREN", preview: "VORSCHAU",
+        aiTitle: "KI Bildgenerator", aiPrompt: "Z.B. Cyberpunk-Katze im Weltraum...", aiBtn: "BILD GENERIEREN",
+        tabAi: "KI", tabText: "Text", tabEmoji: "Emoji", tabBrush: "Zeichnen",
+        textLabel: "Eigener Text", textPlaceholder: "Text eingeben...", textBtn: "TEXT HINZUFÜGEN",
         f: [{ t: "Color-Shift", d: "Dynamischer Farbverlauf." }, { t: "MIL-STD Schutz", d: "Sturzgetestet aus 2m." },
         { t: "Premium Material", d: "Mattes Finish ohne Fingerabdrücke." }, { t: "Personalisierung", d: "Zeichne, Emojis, importiere Grafiken." }],
         pay: "Sichere Zahlungen", footer: "© 2026 Elite Case Studio."
@@ -1157,8 +1190,9 @@
         featTitle: "为什么选择我们？", featSub: "高端外壳中的变色技术。",
         prodTitle: "变色系列", prodSub: "每个手机壳随角度变换颜色。",
         studioTitle: "设计工作室", studioSub: "创建你的独特设计。",
-        tip: "拖动表情，双击删除！", brush: "画笔和颜色", emoji: "表情面板",
-        importBtn: "导入图片", clearBtn: "清除", applyBtn: "生成", preview: "实时预览",
+        aiTitle: "AI 图像生成器", aiPrompt: "例如：太空中的赛博朋克猫...", aiBtn: "生成图像",
+        tabAi: "AI", tabText: "文本", tabEmoji: "表情", tabBrush: "绘画",
+        textLabel: "自定义文本", textPlaceholder: "输入文本...", textBtn: "添加文本",
         f: [{ t: "变色效果", d: "动态渐变色彩。" }, { t: "军标防护", d: "2米跌落测试。" },
         { t: "高端材质", d: "哑光不留指纹。" }, { t: "个性定制", d: "绘画、表情、导入图片。" }],
         pay: "安全支付", footer: "© 2026 Elite Case Studio.",
@@ -1199,8 +1233,13 @@
       document.getElementById('ai-prompt').placeholder = t.aiPrompt;
       document.getElementById('btn-generate-ai').innerText = t.aiBtn;
       document.querySelectorAll('.tab-btn .tab-text')[0].innerText = t.tabAi;
-      document.querySelectorAll('.tab-btn .tab-text')[1].innerText = t.tabEmoji;
-      document.querySelectorAll('.tab-btn .tab-text')[2].innerText = t.tabBrush;
+      document.querySelectorAll('.tab-btn .tab-text')[1].innerText = t.tabText;
+      document.querySelectorAll('.tab-btn .tab-text')[2].innerText = t.tabEmoji;
+      document.querySelectorAll('.tab-btn .tab-text')[3].innerText = t.tabBrush;
+      
+      document.getElementById('lbl-text').innerText = t.textLabel;
+      document.getElementById('custom-text-input').placeholder = t.textPlaceholder;
+      document.getElementById('btn-add-text').innerText = t.textBtn;
       document.getElementById('btn-import').innerText = t.importBtn;
       document.getElementById('btn-clear').innerText = t.clearBtn;
       document.getElementById('btn-apply').innerText = t.applyBtn;
@@ -1278,15 +1317,22 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(drawLayer, 0, 0);
       elements.forEach((el, i) => {
         ctx.save(); if (dragIndex === i) { ctx.shadowBlur = 15; ctx.shadowColor = '#38bdf8' }
-        if (el.type === 'emoji') { ctx.font = `${el.size}px Outfit`; ctx.fillText(el.content, el.x, el.y) }
+        if (el.type === 'emoji') { ctx.font = `${el.size}px Outfit`; ctx.fillStyle = '#000'; ctx.fillText(el.content, el.x, el.y) }
+        else if (el.type === 'text') { ctx.font = `700 ${el.size}px ${el.font}`; ctx.fillStyle = el.color; ctx.fillText(el.content, el.x, el.y) }
         else { ctx.drawImage(el.content, el.x, el.y, el.width, el.height) } ctx.restore()
       })
     }
 
     function addElement(type, content) {
       if (type === 'emoji') { elements.push({ type, content, x: 140, y: 250, size: 60 }) }
+      else if (type === 'text') { elements.push({ type, content, x: 50, y: 100, size: 40, font: document.getElementById('font-family').value, color: document.getElementById('colorPicker').value }) }
       else { const img = new Image(); img.onload = () => { elements.push({ type, content: img, x: 50, y: 120, width: 200, height: 200 }); render() }; img.src = content }
       render()
+    }
+
+    function addTextElement() {
+      const val = document.getElementById('custom-text-input').value;
+      if (val) addElement('text', val);
     }
 
     function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: (e.clientX || (e.touches && e.touches[0].clientX)) - r.left, y: (e.clientY || (e.touches && e.touches[0].clientY)) - r.top } }
@@ -1295,7 +1341,15 @@
       const p = getPos(e); dragIndex = -1;
       for (let i = elements.length - 1; i >= 0; i--) {
         const el = elements[i];
-        const hit = el.type === 'emoji' ? (p.x > el.x && p.x < el.x + 60 && p.y < el.y && p.y > el.y - 60) : (p.x > el.x && p.x < el.x + el.width && p.y > el.y && p.y < el.y + el.height);
+        let hit = false;
+        if (el.type === 'emoji') hit = (p.x > el.x && p.x < el.x + 60 && p.y < el.y && p.y > el.y - 60);
+        else if (el.type === 'text') {
+          ctx.font = `700 ${el.size}px ${el.font}`;
+          const m = ctx.measureText(el.content);
+          hit = (p.x > el.x && p.x < el.x + m.width && p.y < el.y && p.y > el.y - el.size);
+        } else {
+          hit = (p.x > el.x && p.x < el.x + el.width && p.y > el.y && p.y < el.y + el.height);
+        }
         if (hit) { dragIndex = i; break }
       }
       if (dragIndex !== -1) { isDragging = true; offX = p.x - elements[dragIndex].x; offY = p.y - elements[dragIndex].y }
@@ -1304,7 +1358,19 @@
 
     canvas.addEventListener('dblclick', e => {
       const p = getPos(e);
-      elements = elements.filter(el => { const hit = el.type === 'emoji' ? (p.x > el.x && p.x < el.x + 60 && p.y < el.y && p.y > el.y - 60) : (p.x > el.x && p.x < el.x + el.width && p.y > el.y && p.y < el.y + el.height); return !hit }); render()
+      elements = elements.filter(el => {
+        let hit = false;
+        if (el.type === 'emoji') hit = (p.x > el.x && p.x < el.x + 60 && p.y < el.y && p.y > el.y - 60);
+        else if (el.type === 'text') {
+          ctx.font = `700 ${el.size}px ${el.font}`;
+          const m = ctx.measureText(el.content);
+          hit = (p.x > el.x && p.x < el.x + m.width && p.y < el.y && p.y > el.y - el.size);
+        } else {
+          hit = (p.x > el.x && p.x < el.x + el.width && p.y > el.y && p.y < el.y + el.height);
+        }
+        return !hit;
+      });
+      render()
     });
 
     window.addEventListener('mousemove', e => {
@@ -1463,6 +1529,23 @@
       const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') }) }, { threshold: .15 });
       document.querySelectorAll('.fade-up').forEach(el => obs.observe(el))
     }
+
+    // TILT EFFECT
+    const previewCol = document.querySelector('.preview-col');
+    const mockup = document.querySelector('.phone-mockup');
+    previewCol.addEventListener('mousemove', (e) => {
+      const rect = previewCol.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = (centerY - y) / 10;
+      const rotateY = (x - centerX) / 10;
+      mockup.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+    previewCol.addEventListener('mouseleave', () => {
+      mockup.style.transform = `rotateX(0deg) rotateY(0deg)`;
+    });
 
     // INIT
     renderProducts(); renderGallery(); observeFadeUps(); render();
